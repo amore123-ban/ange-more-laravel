@@ -20,6 +20,10 @@ class User extends Authenticatable
         return $this->hasMany(Shop::class);
     }
 
+    public function employe()
+    {
+        return $this->hasOne(Employe::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +33,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'shop_id',
     ];
 
     /**

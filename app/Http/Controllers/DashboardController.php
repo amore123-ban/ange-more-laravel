@@ -32,6 +32,10 @@ class DashboardController extends Controller
 
         $nbprods = Product::where('shop_id', $shop_id)->count();
 
-        return view('dashboard', compact('shop', 'nbprods'));
+        // $prods = Product::where('shop_id', $shop_id)->get();
+
+        $faibles = Product::whereColumn('quantite', '<=', 'quantite_min')->where('shop_id', $shop_id)->get();
+
+        return view('dashboard', compact('shop', 'nbprods','faibles'));
     }
 }

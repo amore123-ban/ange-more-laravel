@@ -28,6 +28,7 @@ class SettingController extends Controller
 
         $nbprods = Product::where('shop_id', $shop_id)->count();
 
+
         return view('settings', compact('shops', 'shop', 'nbprods'));
     }
 }

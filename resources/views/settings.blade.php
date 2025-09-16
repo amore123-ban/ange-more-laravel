@@ -497,42 +497,57 @@
             </div>
         </div>
 
-        <div class="row g-3">
-            <!-- Boutique Existante -->
-            <div class="col-lg-4 col-md-6 col-12">
-                <div class="shop-card animate-fade-in-up animate-delay-1">
-                    <span class="status-badge status-active">✅ Actif</span>
-                    <div class="shop-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3 class="shop-name">TechStore Pro</h3>
-                    <p class="shop-description">Boutique spécialisée dans les produits électroniques et accessoires high-tech dernière génération.</p>
-                    
-                    <div class="shop-stats">
-                        <div class="stat-item">
-                            <span class="stat-value">248</span>
-                            <span class="stat-label">Produits</span>
+       <div class="row g-4">
+            @forelse($shops as $shop)
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="shop-card">
+                        <span class="status-badge status-active">Actif</span>
+                        <div class="shop-icon">
+                            <i class="fas fa-store"></i>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-value">156</span>
-                            <span class="stat-label">Ventes</span>
+                        <h3 class="shop-name">{{ $shop->nom }}</h3>
+                        <p class="shop-description">{{ $shop->description ?? 'Aucune description' }}</p>
+                        
+                        <div class="shop-stats">
+                            <div class="stat-item">
+                                <span class="stat-value"></span>
+                                <span class="stat-label">Produits</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value"></span>
+                                <span class="stat-label">Ventes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value"></span>
+                                <span class="stat-label">Note</span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-value">4.8⭐</span>
-                            <span class="stat-label">Note</span>
-                        </div>
-                    </div>
 
-                    <div class="shop-actions">
-                        <button class="btn btn-access">
-                            <i class="fas fa-arrow-right me-2"></i>Accéder
-                        </button>
-                        <button class="btn btn-manage">
-                            <i class="fas fa-cog"></i>
-                        </button>
+                        <div class="shop-actions">
+                            <form action="{{ route('shop-selected', $shop->id)  }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                                <button class="btn btn-access" type="submit">
+                                    <i class="fas fa-arrow-right me-2"></i>Accéder
+                                </button>
+                            </form>
+                            <button class="btn btn-manage">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @empty
+                <div class="empty-state">
+                    <i class="fas fa-store-slash"></i>
+                    <h4>Aucune boutique trouvée</h4>
+                    <p>Créez votre première boutique pour commencer à vendre.</p>
+                    <a href="{{ route('shop.create') }}" class="btn btn-primary mt-3">
+                        <i class="fas fa-plus"></i> Créer une boutique
+                    </a>
+                </div>
+            @endforelse
+        </div>
 
             <!-- Carte Création avec Animations -->
             <div class="col-lg-4 col-md-6 col-12">

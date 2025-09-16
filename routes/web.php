@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
@@ -11,6 +12,7 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 Route::get('/', function () {
     return view('home');
@@ -69,9 +71,23 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/ventes', [SaleController::class, 'index'])->name('vente');
 
+    Route::get('/employes', [EmployeeController::class, 'index'])->name('employee');
+
+    Route::post('/employe-create', [EmployeeController::class, 'store'])->name('employe-store');
+
     Route::post('/api/sales', [SaleController::class, 'store'])->name('sales.store');
 
     Route::get('/parametres', [SettingController::class, 'index'])->name('setting');
+});
+
+Route::get('/fixx', function(){
+    $users = User::all();
+    foreach($users as $user){
+        $user->shop_id = 2;
+        $user->save();
+    }
+
+    return "ok";
 });
 
 require __DIR__.'/auth.php';

@@ -12,7 +12,7 @@
             --primary-blue: #2563eb;
             --primary-blue-dark: #1d4ed8;
             --primary-blue-light: #3b82f6;
-            --color-blue-300:rgb(165, 192, 230)
+            --color-blue-300:rgb(165, 192, 230);
             --sidebar-width: 280px;
         }
 
@@ -309,7 +309,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="clients">
+                        <a class="nav-link {{request()->routeIs('employee') ? 'active' : '' }}" href="{{route('employee')}}" data-section="employees">
                             <i class="fas fa-users"></i>
                             <span>Employes</span>
                         </a>

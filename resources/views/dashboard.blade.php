@@ -881,14 +881,15 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><span class="fw-bold text-primary">#001</span></td>
+                  @foreach($faibles as $faible)
+                  <td><span class="fw-bold text-primary">#0{{$faible->nom}}</span></td>
                   <td>
                     <div class="d-flex align-items-center">
                       <div class="icon-wrapper bg-danger bg-opacity-10 me-2" style="width: 32px; height: 32px;">
                         <i class="fas fa-mobile-alt text-danger" style="font-size: 0.8rem;"></i>
                       </div>
                       <div>
-                        <strong style="font-size: 0.875rem;">iPhone 15 Pro</strong>
+                        <strong style="font-size: 0.875rem;"></strong>
                         <br><small class="text-muted" style="font-size: 0.75rem;">Référence: IP15P-128</small>
                       </div>
                     </div>
@@ -907,6 +908,7 @@
                     </button>
                   </td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
           </div>
