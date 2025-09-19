@@ -78,9 +78,9 @@ class EmployeeController extends Controller
         'role' => 'employe',
         'shop_id' => $shop_id,
     ]);
-
         Mail::to($user->email)->send(new EmployeeWelcomeMail($user, $plainPassword));
-    
+        
+        // dd($user->email);
         return redirect('/employes');
     }
 

@@ -397,7 +397,7 @@
                 <div class="d-flex align-items-center flex-grow-1" style="min-width: 300px;">
                     
                     <div class="icon-container rounded-3 bg-primary d-flex align-items-center justify-content-center me-3 shadow">
-                        <i class="fas fa-boxes text-white fs-4"></i>
+                        <i class="fas fa-users text-white fs-4"></i>
                     </div>
                     
                     <div>
@@ -407,7 +407,7 @@
                 </div>
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchProduct" class=" search-input" placeholder="Rechercher un produit...">
+                    <input type="text" id="searchProduct" class=" search-input" placeholder="Rechercher un employe...">
                 </div>
                 
                 <div style="min-width: 250px;">

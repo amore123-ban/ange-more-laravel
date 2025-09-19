@@ -499,7 +499,7 @@
 
        <div class="row g-4">
             @forelse($shops as $shop)
-                <div class="col-lg-4 col-md-6 col-12">
+                <div class="col-lg-4 col-md-6">
                     <div class="shop-card">
                         <span class="status-badge status-active">Actif</span>
                         <div class="shop-icon">
@@ -547,10 +547,7 @@
                     </a>
                 </div>
             @endforelse
-        </div>
-
-            <!-- Carte Création avec Animations -->
-            <div class="col-lg-4 col-md-6 col-12">
+             <div class="col-lg-4 col-md-6 col-12">
                 <div class="create-shop-card animate-fade-in-up animate-delay-2" onclick="createNewShop()">
                     <div class="create-icon">
                         <i class="fas fa-plus"></i>
@@ -559,6 +556,10 @@
                     <p class="create-subtitle">Lancez votre nouvelle boutique en ligne en quelques clics et commencez à vendre immédiatement</p>
                 </div>
             </div>
+        </div>
+
+            <!-- Carte Création avec Animations -->
+           
         </div>
     </div>
 </div>

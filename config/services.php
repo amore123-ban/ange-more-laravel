@@ -34,5 +34,11 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    
+    // 'notchpay' => [
+    //     'public_key' => env('NOTCHPAY_PUBLIC_KEY'),
+    //     'secret_key' => env('NOTCHPAY_SECRET_KEY'),
+    //     'mode' => env('NOTCHPAY_MODE', 'sandbox'),
+    // ],
 
 ];

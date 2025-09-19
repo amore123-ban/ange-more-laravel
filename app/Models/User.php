@@ -20,10 +20,10 @@ class User extends Authenticatable
         return $this->hasMany(Shop::class);
     }
 
-    public function employe()
-    {
-        return $this->hasOne(Employe::class);
-    }
+    // public function subscription()
+    // {
+    //     return $this->hasOne(\App\Models\Subscription::class)->latestOfMany();
+    // }
     /**
      * The attributes that are mass assignable.
      *

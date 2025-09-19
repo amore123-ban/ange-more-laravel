@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class SettingController extends Controller
 {
     public function index(Request $request)
+    
     {
-
-        $shops = Auth::user()->shops;
+        $shops = Shop::where('user_id', auth()->id())->get();
 
         $shop_id = $request->input('boutique_id', session('shop_id'));
 
@@ -27,7 +27,6 @@ class SettingController extends Controller
         }
 
         $nbprods = Product::where('shop_id', $shop_id)->count();
-
 
         return view('settings', compact('shops', 'shop', 'nbprods'));
     }

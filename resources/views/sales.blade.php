@@ -322,7 +322,7 @@
                 <div class="d-flex align-items-center flex-grow-1" style="min-width: 300px;">
                     
                     <div class="icon-container rounded-3 bg-primary d-flex align-items-center justify-content-center me-3 shadow">
-                        <i class="fas fa-boxes text-white fs-4"></i>
+                        <i class="fas fa-shopping-cart text-white fs-4"></i>
                     </div>
                     
                     <div>
