@@ -39,7 +39,7 @@ class ProductController extends Controller
 
         $rupture = $prods->where('quantite', 0)->count();
 
-        return view('products', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture'));
+        return view('dashboard.proprietaire.products', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture'));
     }
 
     public function store(Request $request)

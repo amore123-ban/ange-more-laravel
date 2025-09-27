@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('mode_paiement');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('total', 10, 2);
+            $table->foreignId('shop_id')->constrained()->onDelete('cascade');
             $table->String('status')->default('completed');
             $table->timestamps();
         });

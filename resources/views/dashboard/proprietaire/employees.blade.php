@@ -27,10 +27,10 @@
     }
 
     .sale-header {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
-            border-top: 4px solid #2563eb;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+        background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+        border-top: 4px solid #2563eb;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
     .sale-header:hover {
         transform: translateY(-2px);

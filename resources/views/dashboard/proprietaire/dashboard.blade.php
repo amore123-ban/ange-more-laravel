@@ -652,7 +652,7 @@
                 </div>
                 <div class="d-none d-md-block text-start me-2">
                     <div class="fw-semibold small">{{ Auth::user()->name ?? 'Utilisateur' }}</div>
-                    <div class="text-muted" style="font-size: 0.75rem;">Administrateur</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">{{ Auth::user()->role ?? 'Administrateur' }}</div>
                 </div>
             </button>
             
@@ -720,7 +720,7 @@
           <div class="card-body  d-flex justify-content-between align-items-center">
            <div class="more">
             <div class="stats-label">Ventes ce mois</div>
-              <div class="stats-number">1,247</div>
+              <div class="stats-number">{{$nbventes}}</div>
               <div class="stats-description">Excellent performance ce mois-ci</div>
               <div class="stats-trend positive">
                 <i class="fas fa-arrow-up me-1"></i>
@@ -739,7 +739,7 @@
           <div class="card-body  d-flex justify-content-between align-items-center">
            <div class="more">
             <div class="stats-label">Produits en stock</div>
-              <div class="stats-number">1,247</div>
+              <div class="stats-number">{{$en_stock}}</div>
               <div class="stats-description">Excellent performance ce mois-ci</div>
               <div class="stats-trend positive">
                 <i class="fas fa-arrow-up me-1"></i>
@@ -758,7 +758,7 @@
           <div class="card-body  d-flex justify-content-between align-items-center">
            <div class="more">
             <div class="stats-label">Chiffre d'affaires</div>
-              <div class="stats-number">1,2M FCFA</div>
+              <div class="stats-number">{{$totalventes}} FCFA</div>
               <div class="stats-description">Excellent performance ce mois-ci</div>
               <div class="stats-trend positive">
                 <i class="fas fa-arrow-up me-1"></i>
@@ -881,23 +881,23 @@
               </thead>
               <tbody>
                 <tr>
-                  @foreach($faibles as $faible)
-                  <td><span class="fw-bold text-primary">#0{{$faible->nom}}</span></td>
+                  @foreach($faibles as $prod)
+                  <td><span class="fw-bold text-primary">#0{{$prod->nom}}</span></td>
                   <td>
                     <div class="d-flex align-items-center">
                       <div class="icon-wrapper bg-danger bg-opacity-10 me-2" style="width: 32px; height: 32px;">
                         <i class="fas fa-mobile-alt text-danger" style="font-size: 0.8rem;"></i>
                       </div>
                       <div>
-                        <strong style="font-size: 0.875rem;"></strong>
+                        <strong style="font-size: 0.875rem;">{{$prod->nom}}</strong>
                         <br><small class="text-muted" style="font-size: 0.75rem;">Référence: IP15P-128</small>
                       </div>
                     </div>
                   </td>
-                  <td><span class="badge bg-primary bg-opacity-10 text-primary" style="font-size: 0.7rem;"> Smartphones</span></td>
-                  <td><strong>450000 FCFA</strong></td>
+                  <td><span class="badge bg-primary bg-opacity-10 text-primary" style="font-size: 0.7rem;"> {{$prod->category->nom}}</span></td>
+                  <td><strong>{{$prod->prix}} FCFA</strong></td>
                   <td>
-                    <span class="badge bg-danger bg-opacity-10 text-danger" style="font-size: 0.7rem;"> 3 unités</span>
+                    <span class="badge bg-danger bg-opacity-10 text-danger" style="font-size: 0.7rem;">{{$prod->quantite}} unités</span>
                   </td>
                   <td>
                     <span class="badge bg-success bg-opacity-10 text-success" style="font-size: 0.7rem;">Stock critique</span>

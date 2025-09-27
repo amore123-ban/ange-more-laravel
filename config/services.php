@@ -35,10 +35,10 @@ return [
         ],
     ],
     
-    // 'notchpay' => [
-    //     'public_key' => env('NOTCHPAY_PUBLIC_KEY'),
-    //     'secret_key' => env('NOTCHPAY_SECRET_KEY'),
-    //     'mode' => env('NOTCHPAY_MODE', 'sandbox'),
-    // ],
+    'notchpay' => [
+        'public_key' => env('NOTCHPAY_PUBLIC_KEY'),
+        'secret_key' => env('NOTCHPAY_SECRET_KEY'),
+        // 'mode' => env('NOTCHPAY_MODE', 'sandbox'),
+    ],
 
 ];

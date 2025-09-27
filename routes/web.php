@@ -5,6 +5,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RecordController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
@@ -14,13 +16,20 @@ use App\Livewire\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+
+Route::get('/test-pdf', function () {
+    $pdf = Pdf::loadHTML('<h1>Hello, ceci est une facture test</h1>');
+    return $pdf->download('facture-test.pdf');
+});
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
 Route::view('/welcome', 'employe_welcome');
+
 Route::get('/login-register', function () {
-    return view('login_register');
+    return view('auth.login_register');
 })->name('login');
 
 Route::post('/register', [RegisterController::class, 'register']);
@@ -89,12 +98,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/produit-create', [ProductController::class, 'store']);
 
     Route::get('/ventes', [SaleController::class, 'index'])->name('vente');
+    
+    Route::post('/api/sales', [SaleController::class, 'store'])->name('sales.store');
 
     Route::get('/employes', [EmployeeController::class, 'index'])->name('employee');
 
     Route::post('/employe-create', [EmployeeController::class, 'store'])->name('employe-store');
 
-    Route::post('/api/sales', [SaleController::class, 'store'])->name('sales.store');
+    Route::get('/historique', [RecordController::class, 'index'])->name('historique');
+
+    Route::get('/facture/{id}', [App\Http\Controllers\FactureController::class, 'downloadInvoice'])->name('facture.download');
 
     Route::get('/parametres', [SettingController::class, 'index'])->name('setting');
 
@@ -109,5 +122,11 @@ Route::get('/fixx', function(){
 
     return "ok";
 });
+
+Route::view('/vue-test', 'vue_test')->name('vue-test');
+
+Route::post('/checkout',[Paymentcontroller::class,'checkout'])->name('checkout');
+
+Route::post('/notchpay/callback',[Checkoutcontroller::class,'callback'])->name('payment.callback');
 
 require __DIR__.'/auth.php';

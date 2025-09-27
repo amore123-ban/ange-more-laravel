@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 
 use App\Models\Employe;
 
+use App\Models\Sale;
+
 use App\Models\Shop;
 
 use App\Models\User;
@@ -24,7 +26,7 @@ use App\Models\Product;
 
 use App\Models\Category;
 
-class EmployeeController extends Controller
+class RecordController extends Controller
 {
     public function index(Request $request){
 
@@ -33,8 +35,11 @@ class EmployeeController extends Controller
         $shop_id = $request->input('shop_id', session('shop_id'));
 
         if ($shop_id) {
+
             $shop = Shop::with(['products'])
+
                 ->where('user_id', Auth::id())
+
                 ->findOrFail($shop_id);
 
             session(['shop_id' => $shop->id]);
@@ -56,32 +61,19 @@ class EmployeeController extends Controller
 
         $employes = $shop->users()->whereRole('employe')->get(); 
 
-        return view('dashboard.proprietaire.employees', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes'));
+        $sales = Sale::where('shop_id', $shop_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        
+        $nbventes = Sale::where('shop_id', $shop_id)->count();
+
+        $totalventes = Sale::where('shop_id', $shop_id)->sum('total');
+
+        $prixMoyenVentes = Sale::where('shop_id', $shop_id)->avg('total');
+
+        return view('dashboard.proprietaire.historique', compact('shops', 'sales','shop', 'nbventes', 'totalventes', 'prixMoyenVentes', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes'));
     
-    }
-
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-        ]);
-
-        $shop_id = $request->input('shop_id', session('shop_id'));
         
-        $plainPassword = Str::random(10);
-
-         $user = User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'password' => Hash::make($plainPassword),
-        'role' => 'employe',
-        'shop_id' => $shop_id,
-    ]);
-        Mail::to($user->email)->send(new EmployeeWelcomeMail($user, $plainPassword));
-        
-        // dd($user->email);
-        return redirect('/employes');
+        dd($shop_id, $sales->toArray());
     }
-
 }

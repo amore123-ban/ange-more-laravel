@@ -33,7 +33,7 @@ class RegisterController extends Controller
         // return redirect('/dashboqrd')->with('success', 'Inscription réussie. Connectez-vous.');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
 {
     $request->validate([
         'email' => 'required|email',
@@ -43,10 +43,30 @@ class RegisterController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::attempt($credentials)) {
-        
-        $request->session()->regenerate(); 
 
-        return redirect('/select-boutique')->with('success', 'Connexion réussie');
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {
+
+            return redirect('/admin-dashboard')->with('success', 'Connexion réussie');
+
+        } elseif ($user->role === 'proprietaire') {
+
+            return redirect('/select-boutique')->with('success', 'Connexion réussie');
+
+        }elseif ($user->role === 'employe') {
+
+            if ($user->shop_id) {
+
+                return redirect()->route('dashboard', ['shop_id' => $user->shop_id])->with('success', 'Connexion réussie');
+
+            } else {
+                
+                return redirect('/login-register')->with('error', 'Aucune boutique assignée à ce compte employé.');
+            }
+        }
     }
 
     return redirect('/login-register')->with('error', 'Identifiants invalides');

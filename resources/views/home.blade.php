@@ -465,7 +465,8 @@
             <li class="nav-item mx-3"><a class="nav-link" href="#pricing">Abonnements</a></li>
             <li class="nav-item mx-3"><a class="nav-link" href="#contact">Contact</a></li>
           </ul>
-          <a href="/login-register" class="btn btn-outline-custom">Se connecter</a>
+          <a href="/login-register" class="btn btn-outline-custom "  style="margin-right:20px;">Se connecter</a>
+          <!-- <a href="" class="btn btn-reverse" style="height:40px;"><i class="fas fa-user-plus me-2 "></i> S'inscire</a> -->
         </div>
       </div>
     </nav>

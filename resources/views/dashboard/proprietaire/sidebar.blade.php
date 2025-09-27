@@ -320,7 +320,7 @@
             <div class="nav-section">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-section="historique">
+                        <a class="nav-link {{request()->routeIs('historique') ? 'active' : '' }}" href="{{route('historique')}}" data-section="historique">
                             <i class="fas fa-history"></i>
                             <span>Historique</span>
                         </a>

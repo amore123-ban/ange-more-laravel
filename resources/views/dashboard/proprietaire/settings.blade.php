@@ -497,6 +497,7 @@
             </div>
         </div>
 
+        @if(Auth::user()->role === 'proprietaire')
        <div class="row g-4">
             @forelse($shops as $shop)
                 <div class="col-lg-4 col-md-6">
@@ -562,6 +563,12 @@
            
         </div>
     </div>
+    @else
+        <div class="alert alert-warning text-center">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            Vous n'avez pas la permission de voir cette section.
+        </div>
+    @endif
 </div>
 
 <script>

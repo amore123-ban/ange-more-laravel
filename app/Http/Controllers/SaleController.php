@@ -34,12 +34,15 @@ class SaleController extends Controller
 
         $nbprods = Product::where('shop_id', $shop_id)->count();
 
-        return view('sales', compact('nbprods', 'prods','shop'));
+        return view('dashboard.proprietaire.sales', compact('nbprods', 'prods','shop'));
     }
 
     public function store(Request $request)
     {
         DB::beginTransaction();
+        
+        $shop_id = $request->input('shop_id', session('shop_id'));
+
         try {
             $sale = Sale::create([
                 'client_name'   => $request->client_name,
@@ -48,6 +51,7 @@ class SaleController extends Controller
                 'total'         => $request->total,
                 'user_id'       => auth()->id(),
                 'status'        => 'validée',
+                'shop_id'       => $shop_id,
             ]);
 
             foreach ($request->items as $item) {

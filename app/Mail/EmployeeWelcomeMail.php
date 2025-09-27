@@ -40,7 +40,7 @@ class EmployeeWelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'employe_welcome',
+            view: 'mail.employe_welcome',
             with: [
                 'user' => $this->user,
                 'password' => $this->password,
