@@ -723,8 +723,8 @@
               <div class="stats-number">{{$nbventes}}</div>
               <div class="stats-description">Excellent performance ce mois-ci</div>
               <div class="stats-trend positive">
-                <i class="fas fa-arrow-up me-1"></i>
-                +12.5%
+                <i class="fas fa-chart-line me-1"></i>
+                Données en temps réel
               </div>
             </div>
             <div class="icon-wrapper bg-primary bg-opacity-10">
@@ -742,8 +742,8 @@
               <div class="stats-number">{{$en_stock}}</div>
               <div class="stats-description">Excellent performance ce mois-ci</div>
               <div class="stats-trend positive">
-                <i class="fas fa-arrow-up me-1"></i>
-                +12.5%
+                <i class="fas fa-chart-line me-1"></i>
+                Données en temps réel
               </div>
             </div>
             <div class="icon-wrapper bg-success bg-opacity-10">
@@ -761,8 +761,8 @@
               <div class="stats-number">{{$totalventes}} FCFA</div>
               <div class="stats-description">Excellent performance ce mois-ci</div>
               <div class="stats-trend positive">
-                <i class="fas fa-arrow-up me-1"></i>
-                +12.5%
+                <i class="fas fa-chart-line me-1"></i>
+                Données en temps réel
               </div>
             </div>
             <div class="icon-wrapper bg-warning bg-opacity-10">
@@ -1008,5 +1008,76 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<!-- Section Statistiques -->
+<section id="statistiques" class="mt-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="stats-card">
+                    <div class="card-body">
+                        <h4 class="fw-bold mb-4">
+                            <i class="fas fa-chart-bar text-primary me-2"></i>
+                            Statistiques Détaillées
+                        </h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h6 class="fw-semibold mb-3">Performance des Ventes</h6>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Total des ventes:</span>
+                                    <strong class="text-primary">{{ $nbventes }}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Chiffre d'affaires:</span>
+                                    <strong class="text-success">{{ number_format($totalventes, 0, ',', ' ') }} FCFA</strong>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Vente moyenne:</span>
+                                    <strong class="text-info">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</strong>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <h6 class="fw-semibold mb-3">État du Stock</h6>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Total produits:</span>
+                                    <strong class="text-primary">{{ $nbprods }}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>En stock:</span>
+                                    <strong class="text-success">{{ $en_stock }}</strong>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Stock faible:</span>
+                                    <strong class="text-warning">{{ $faibles->count() }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        @if($faibles->count() > 0)
+                        <div class="mt-4">
+                            <h6 class="fw-semibold mb-3 text-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Produits en Stock Faible
+                            </h6>
+                            <div class="row">
+                                @foreach($faibles->take(6) as $product)
+                                <div class="col-md-4 mb-2">
+                                    <div class="alert alert-warning py-2 mb-0">
+                                        <strong>{{ $product->nom }}</strong><br>
+                                        <small>Stock: {{ $product->quantite }} | Min: {{ $product->quantite_min }}</small>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @endsection

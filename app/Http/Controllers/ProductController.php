@@ -12,34 +12,44 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-
-        $shops = Auth::user()->shops;
-
-        $shop_id = $request->input('shop_id', session('shop_id'));
-
-        if ($shop_id) {
-            $shop = Shop::with(['products'])
-                ->where('user_id', Auth::id())
-                ->findOrFail($shop_id);
-
-            session(['shop_id' => $shop->id]);
+        $user = Auth::user();
+        
+        // Gestion différente selon le rôle
+        if ($user->role === 'employe') {
+            if (!$user->shop_id) {
+                return redirect('/login-register')->with('error', 'Aucune boutique assignée à ce compte employé.');
+            }
+            $shop_id = $user->shop_id;
+            session(['shop_id' => $shop_id]);
+            $shop = Shop::with(['products'])->findOrFail($shop_id);
         } else {
-            $shop = null;
+            $shops = Auth::user()->shops;
+            $shop_id = $request->input('shop_id', session('shop_id'));
+
+            if ($shop_id) {
+                $shop = Shop::with(['products'])
+                    ->where('user_id', Auth::id())
+                    ->findOrFail($shop_id);
+                session(['shop_id' => $shop->id]);
+            } else {
+                $shop = null;
+            }
         }
 
         $cats = Category::all();
-
         $prods = Product::where('shop_id', $shop_id)->get();
-
         $nbprods = Product::where('shop_id', $shop_id)->count();
-
         $en_stock = $prods->filter(fn ($prod) => $prod->quantite > $prod->quantite_min)->count();
-
         $faible = $prods->filter(fn ($prod) => $prod->quantite <= $prod->quantite_min && $prod->quantite > 0)->count();
-
         $rupture = $prods->where('quantite', 0)->count();
+        $nbventes = \App\Models\Sale::where('shop_id', $shop_id)->count();
 
-        return view('dashboard.proprietaire.products', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture'));
+        // Choisir la vue selon le rôle
+        if ($user->role === 'employe') {
+            return view('dashboard.employe.products', compact('shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture', 'nbventes'));
+        } else {
+            return view('dashboard.proprietaire.products', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture', 'nbventes'));
+        }
     }
 
     public function store(Request $request)

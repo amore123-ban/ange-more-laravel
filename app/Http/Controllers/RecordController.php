@@ -29,48 +29,51 @@ use App\Models\Category;
 class RecordController extends Controller
 {
     public function index(Request $request){
-
-        $shops = Auth::user()->shops;
-
-        $shop_id = $request->input('shop_id', session('shop_id'));
-
-        if ($shop_id) {
-
-            $shop = Shop::with(['products'])
-
-                ->where('user_id', Auth::id())
-
-                ->findOrFail($shop_id);
-
-            session(['shop_id' => $shop->id]);
+        $user = Auth::user();
+        
+        // Gestion différente selon le rôle
+        if ($user->role === 'employe') {
+            if (!$user->shop_id) {
+                return redirect('/login-register')->with('error', 'Aucune boutique assignée à ce compte employé.');
+            }
+            $shop_id = $user->shop_id;
+            session(['shop_id' => $shop_id]);
+            $shop = Shop::with(['products'])->findOrFail($shop_id);
         } else {
-            $shop = null;
+            $shops = Auth::user()->shops;
+            $shop_id = $request->input('shop_id', session('shop_id'));
+
+            if ($shop_id) {
+                $shop = Shop::with(['products'])
+                    ->where('user_id', Auth::id())
+                    ->findOrFail($shop_id);
+                session(['shop_id' => $shop->id]);
+            } else {
+                $shop = null;
+            }
         }
 
         $cats = Category::all();
-
         $prods = Product::where('shop_id', $shop_id)->get();
-
         $nbprods = Product::where('shop_id', $shop_id)->count();
-
         $en_stock = $prods->filter(fn ($prod) => $prod->quantite > $prod->quantite_min)->count();
-
         $faible = $prods->filter(fn ($prod) => $prod->quantite <= $prod->quantite_min && $prod->quantite > 0)->count();
-
         $rupture = $prods->where('quantite', 0)->count();
-
-        $employes = $shop->users()->whereRole('employe')->get(); 
+        $employes = User::where('shop_id', $shop_id)->where('role', 'employe')->get(); 
 
         $sales = Sale::where('shop_id', $shop_id)
             ->orderBy('created_at', 'desc')
             ->get();
         
         $nbventes = Sale::where('shop_id', $shop_id)->count();
-
         $totalventes = Sale::where('shop_id', $shop_id)->sum('total');
-
         $prixMoyenVentes = Sale::where('shop_id', $shop_id)->avg('total');
 
-        return view('dashboard.proprietaire.historique', compact('shops', 'sales','shop', 'nbventes', 'totalventes', 'prixMoyenVentes', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes'));
+        // Choisir la vue selon le rôle
+        if ($user->role === 'employe') {
+            return view('dashboard.employe.historique', compact('shop', 'sales', 'nbventes', 'totalventes', 'prixMoyenVentes', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture'));
+        } else {
+            return view('dashboard.proprietaire.historique', compact('shops', 'sales','shop', 'nbventes', 'totalventes', 'prixMoyenVentes', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes'));
+        }
     }
 }
