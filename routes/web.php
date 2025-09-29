@@ -10,6 +10,7 @@ use App\Http\Controllers\RecordController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\SubscriptionController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -39,7 +40,7 @@ Route::post('/login', [RegisterController::class, 'login']);
 Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
 
 Route::get('/password-forgot', function () {
-    return view('password_forgot');
+    return view('password_reset');
 });
 Route::post('/forgot-password', [RegisterController::class, 'forgotPassword']);
 
@@ -65,22 +66,22 @@ Route::post('/boutique-create', [ShopController::class, 'store'])->middleware('a
 // });
 
 
-// Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 
-//     Route::get('/plans', [PaymentController::class,'index'])->name('plans');
+    Route::get('/plans', [SubscriptionController::class,'index'])->name('plans');
     
-//     Route::post('/subscribe/{plan}', [SubscriptionController::class,'store'])->name('subscribe');
+    Route::post('/subscribe/{plan}', [SubscriptionController::class,'store'])->name('subscribe');
 
-//     // Route::get('/pay', [SubscriptionController::class,'pay'])->name('pay');
+    Route::get('/pay/{plan}', [SubscriptionController::class,'pay'])->name('pay');
 
-//     // Route::get('/notchpay/callback', [SubscriptionController::class,'callback'])->name('notchpay.callback');
+    Route::get('/notchpay/callback', [SubscriptionController::class,'callback'])->name('notchpay.callback');
 
-//     Route::post('/webhook/notchpay', [PaymentController::class, 'webhook']);
+    Route::post('/webhook/notchpay', [PaymentController::class, 'webhook']);
 
-//     Route::post('/pay/{plan}', [PaymentController::class, 'pay'])->name('pay');
+    Route::post('/pay/{plan}', [PaymentController::class, 'pay'])->name('pay');
 
-//     Route::get('/callback', [PaymentController::class, 'callback'])->name('payment.callback');
-// });
+    Route::get('/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+});
 
 Route::middleware(['auth'])->group(function () {
 
@@ -125,8 +126,8 @@ Route::get('/fixx', function(){
 
 Route::view('/vue-test', 'vue_test')->name('vue-test');
 
-Route::post('/checkout',[Paymentcontroller::class,'checkout'])->name('checkout');
+Route::post('/checkout',[PaymentController::class,'checkout'])->name('checkout');
 
-Route::post('/notchpay/callback',[Checkoutcontroller::class,'callback'])->name('payment.callback');
+Route::post('/notchpay/callback',[PaymentController::class,'callback'])->name('payment.callback');
 
 require __DIR__.'/auth.php';

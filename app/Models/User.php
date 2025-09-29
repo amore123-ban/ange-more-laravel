@@ -14,16 +14,15 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
-    public function Shop()
+    public function shops()
     {
-
         return $this->hasMany(Shop::class);
     }
 
-    // public function subscription()
-    // {
-    //     return $this->hasOne(\App\Models\Subscription::class)->latestOfMany();
-    // }
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class)->latestOfMany();
+    }
     /**
      * The attributes that are mass assignable.
      *

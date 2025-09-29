@@ -127,8 +127,8 @@
           <label for="password" class="form-label">Mot de passe</label>
         </div>
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Entrer votre mot de passe" required>
-          <label for="password" class="form-label">Confirmer mot de passe</label>
+          <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirmer votre mot de passe" required>
+          <label for="password_confirmation" class="form-label">Confirmer mot de passe</label>
         </div>
         <div class="d-grid">
           <button type="submit" class="btn">Inscription</button>

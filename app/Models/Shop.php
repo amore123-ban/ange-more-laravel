@@ -20,10 +20,9 @@ class Shop extends Model
         return $this->hasMany(User::class);
     }
 
-    public function u()
+    public function owner()
     {
-
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function products()

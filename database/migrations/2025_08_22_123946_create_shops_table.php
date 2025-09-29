@@ -16,7 +16,7 @@ return new class extends Migration
             $table->String('nom');
             $table->Text('description');
             $table->String('adresse');
-            $table->Integer('telephone');
+            $table->string('telephone');
             $table->foreignId('user_id')->Constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
