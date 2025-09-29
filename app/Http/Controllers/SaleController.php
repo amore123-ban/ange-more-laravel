@@ -67,26 +67,48 @@ class SaleController extends Controller
                 'shop_id'       => $shop_id,
             ]);
 
-            foreach ($request->items as $item) {
-                $sale->items()->create([
-                    'product_id'    => $item['product_id'],
-                    'quantite'      => $item['quantite'],
-                    'prix' => $item['prix'],
-                ]);
+            // Gérer les produits du formulaire
+            $products = $request->input('products', []);
+            $quantities = $request->input('quantities', []);
+            
+            if (!empty($products) && !empty($quantities)) {
+                foreach ($products as $index => $productId) {
+                    if (!empty($productId) && !empty($quantities[$index])) {
+                        $product = Product::find($productId);
+                        if ($product) {
+                            $sale->items()->create([
+                                'product_id' => $productId,
+                                'quantite'   => $quantities[$index],
+                                'prix'       => $product->prix,
+                            ]);
 
-                Product::where('id', $item['product_id'])
-                    ->decrement('quantite', $item['quantite']);
+                            Product::where('id', $productId)
+                                ->decrement('quantite', $quantities[$index]);
+                        }
+                    }
+                }
             }
 
             DB::commit();
-             return response()->json([
-            'success' => true,
-            'message' => 'Vente enregistrée avec succès',
-            'redirect' => url()->previous(), 
-        ]);    
+            
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Vente enregistrée avec succès',
+                    'redirect' => route('vente'),
+                ]);
+            }
+            
+            return redirect()->route('vente')->with('success', 'Vente enregistrée avec succès');
+            
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            }
+            
+            return redirect()->back()->with('error', 'Erreur lors de l\'enregistrement: ' . $e->getMessage());
         }
     }
 
