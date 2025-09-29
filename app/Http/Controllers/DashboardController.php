@@ -71,9 +71,9 @@ class DashboardController extends Controller
 
         // Choisir la vue selon le rôle
         if ($user->role === 'employe') {
-            return view('dashboard.employe.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods', 'faibles', 'faible'));
+            return view('dashboard.employe.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods', 'faibles', 'faible', 'sales'));
         } else {
-            return view('dashboard.proprietaire.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods', 'faibles'));
+            return view('dashboard.proprietaire.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods', 'faibles', 'sales'));
         }
     }
 }
