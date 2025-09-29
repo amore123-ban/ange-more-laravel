@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sidebar Stylisée - EzStore</title>
+    <title>Sidebar Employé - EzStore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -35,7 +35,6 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1050;
             box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
-            /* overflow-y: auto; */
         }
 
         .sidebar.show {
@@ -49,9 +48,9 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
         }
+        
         img{
             width:100px;
-
         }
         
         .sidebar-nav {
@@ -230,6 +229,16 @@
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
+        .employee-badge {
+            background: #10b981;
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            margin-left: auto;
+            font-weight: 600;
+        }
+
         @media (min-width: 992px) {
             .sidebar {
                 transform: translateX(0);
@@ -253,20 +262,6 @@
                 margin-left: 0;
             }
         }
-
-        
-        @keyframes slideInFromLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        
     </style>
 </head>
 <body>
@@ -275,16 +270,14 @@
         <i class="fas fa-bars"></i>
     </button>
 
-    
     <div class="sidebar" id="sidebar">
-        
         <div class="sidebar-header">
             <a href="#" class="sidebar-logo">
                 <img src="./images/Ezstore.png" class=""/>
             </a>
+            <div class="employee-badge mt-2">EMPLOYÉ</div>
         </div>
 
-        
         <nav class="sidebar-nav">
             <div class="nav-section">
                 <ul class="nav flex-column">
@@ -298,20 +291,14 @@
                         <a class="nav-link {{request()->routeIs('produit') ? 'active' : '' }}" href="{{route('produit')}}">
                             <i class="fas fa-box"></i>
                             <span>Produits</span>
-                            <span class="nav-badge">{{$nbprods}}</span>
+                            <span class="nav-badge">{{$nbprods ?? 0}}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{request()->routeIs('vente') ? 'active' : '' }}" href="{{route('vente')}}">
                             <i class="fas fa-shopping-cart"></i>
                             <span>Ventes</span>
-                            <span class="nav-badge">{{ $nbventes ?? 0 }}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{request()->routeIs('employee') ? 'active' : '' }}" href="{{route('employee')}}" data-section="employees">
-                            <i class="fas fa-users"></i>
-                            <span>Employes</span>
+                            <span class="nav-badge">{{$nbventes ?? 0}}</span>
                         </a>
                     </li>
                 </ul>
@@ -329,12 +316,6 @@
                         <a class="nav-link" href="{{ route('dashboard') }}#statistiques" data-section="statistiques">
                             <i class="fas fa-chart-bar"></i>
                             <span>Statistiques</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{request()->routeIs('setting') ? 'active' : '' }}" href="{{route('setting')}}" data-section="parametres">
-                            <i class="fas fa-cog"></i>
-                            <span>Paramètres</span>
                         </a>
                     </li>
                 </ul>
@@ -356,8 +337,7 @@
 
     <div class="overlay" id="overlay"></div>
 
-      <script>
-
+    <script>
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -389,6 +369,5 @@
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
 </body>
 </html>

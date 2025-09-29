@@ -34,7 +34,8 @@ class SaleController extends Controller
 
         $nbprods = Product::where('shop_id', $shop_id)->count();
 
-        return view('dashboard.proprietaire.sales', compact('nbprods', 'prods','shop'));
+        $nbventes = \App\Models\Sale::where('shop_id', $shop_id)->count();
+        return view('dashboard.proprietaire.sales', compact('nbprods', 'prods','shop', 'nbventes'));
     }
 
     public function store(Request $request)

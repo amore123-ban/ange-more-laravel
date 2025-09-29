@@ -20,81 +20,60 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-
-        // dd(Shop::where('user_id', Auth::id())->toSql());
-
-        // $shops=Shop::find()->where('user_id', Auth::id())->first();
-
-        // $shops = Auth::id()->shop;
-
-        // dd($shops);
-        //   return view('dashboard', compact('shops'));
-        if (! session()->has('shop_id')) {
-
-            return redirect('/select-boutique')
+        $user = Auth::user();
+        
+        // Gestion différente selon le rôle
+        if ($user->role === 'employe') {
+            // Pour les employés, utiliser leur shop_id directement
+            if (!$user->shop_id) {
+                return redirect('/login-register')->with('error', 'Aucune boutique assignée à ce compte employé.');
+            }
             
-                ->with('error', 'Veuillez sélectionner une boutique.');
+            $shop_id = $user->shop_id;
+            session(['shop_id' => $shop_id]);
+        } else {
+            // Pour les propriétaires, vérifier la session
+            if (!session()->has('shop_id')) {
+                return redirect('/select-boutique')->with('error', 'Veuillez sélectionner une boutique.');
+            }
+            $shop_id = $request->input('shop_id', session('shop_id'));
         }
 
-        $shop = Shop::with(['products'])
-            ->findOrFail(session('shop_id'));
-
-        $shop_id = $request->input('shop_id', session('shop_id'));
+        $shop = Shop::with(['products'])->findOrFail($shop_id);
 
         $nbprods = Product::where('shop_id', $shop_id)->count();
-
         $prods = Product::where('shop_id', $shop_id)->get();
-
         $en_stock = $prods->filter(fn ($prod) => $prod->quantite > $prod->quantite_min)->count();
-
+        $faible = $prods->filter(fn ($prod) => $prod->quantite <= $prod->quantite_min && $prod->quantite > 0)->count();
         $nbventes = Sale::where('shop_id', $shop_id)->count();
-
         $totalventes = Sale::where('shop_id', $shop_id)->sum('total');
 
-        $sales = Sale::where('shop_id', $shop_id)
-
-        ->orderBy('created_at', 'desc')
-
-        ->get();
-
-        $sales = Sale::where('shop_id', $shop_id)
-
-        ->orderBy('created_at', 'desc')
-
-        ->get();
+        $sales = Sale::where('shop_id', $shop_id)->orderBy('created_at', 'desc')->get();
 
         $period = $request->input('period', '30'); 
-
         $dateStart = match ($period) {
-
             '7' => Carbon::now()->subDays(7),
-
             '30' => Carbon::now()->subDays(30),
-
             '90' => Carbon::now()->subMonths(3),
-
             default => Carbon::now()->subDays(30),
         };
 
         $salesByDay = Sale::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as total'))
-
             ->where('shop_id', $shop_id)
-
             ->where('created_at', '>=', $dateStart)
-
             ->groupBy('date')
-
             ->orderBy('date', 'asc')
-
             ->get();
 
         $dates = $salesByDay->pluck('date');
-
         $totals = $salesByDay->pluck('total');
-
-
         $faibles = Product::whereColumn('quantite', '<=', 'quantite_min')->where('shop_id', $shop_id)->get();
 
-        return view('dashboard.proprietaire.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods','faibles'));
+        // Choisir la vue selon le rôle
+        if ($user->role === 'employe') {
+            return view('dashboard.employe.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods', 'faibles', 'faible'));
+        } else {
+            return view('dashboard.proprietaire.dashboard', compact('shop', 'nbventes', 'en_stock', 'totalventes', 'dates', 'period', 'totals', 'nbprods', 'faibles'));
+        }
     }
 }

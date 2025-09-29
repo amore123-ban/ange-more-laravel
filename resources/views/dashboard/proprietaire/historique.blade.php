@@ -401,17 +401,17 @@
                 <div class="d-flex align-items-center flex-grow-1" style="min-width: 300px;">
                     
                     <div class="icon-container rounded-3 bg-primary d-flex align-items-center justify-content-center me-3 shadow">
-                        <i class="fas fa-users text-white fs-4"></i>
+                        <i class="fas fa-history text-white fs-4"></i>
                     </div>
                     
                     <div>
-                        <h4 class="title-gradient fw-bold mb-1 fs-5">Gerer vos employes</h4>
-                        <small class="text-muted fw-medium"> Suivi et gestion de toutes les transactions </small>
+                        <h4 class="title-gradient fw-bold mb-1 fs-5">Historique des Ventes</h4>
+                        <small class="text-muted fw-medium">Suivi et gestion de toutes les transactions</small>
                     </div>
                 </div>
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchProduct" class=" search-input" placeholder="Rechercher un employe...">
+                    <input type="text" id="searchProduct" class=" search-input" placeholder="Rechercher une vente...">
                 </div>
                 
                 <div style="min-width: 250px;">
@@ -540,7 +540,7 @@
                     <div class="d-flex justify-content-between align-items-start">
                         <div>
                             <h6 class="text-muted mb-2 fw-medium">Vente Moyenne</h6>
-                            <h3 class="mb-0 fw-bold text-primary">{{$prixMoyenVentes}} FCFA</h3>
+                            <h3 class="mb-0 fw-bold text-primary">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</h3>
                             <small class="text-warning">
                                 <i class="fas fa-minus me-1"></i>
                                 -2.1% ce mois
@@ -656,9 +656,9 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center">
-                                    <button class="action-btn btn-view" title="Voir détails">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
+                                    <a href="{{ route('facture.download', $sale->id) }}" class="action-btn btn-view" title="Télécharger facture">
+                                        <i class="fas fa-download"></i>
+                                    </a>
                                     <button class="action-btn btn-edit" title="Modifier">
                                         <i class="fas fa-edit"></i>
                                     </button>

@@ -23,6 +23,7 @@ use App\Mail\EmployeeWelcomeMail;
 use App\Models\Product;
 
 use App\Models\Category;
+use App\Models\User;
 
 class EmployeeController extends Controller
 {
@@ -54,9 +55,10 @@ class EmployeeController extends Controller
 
         $rupture = $prods->where('quantite', 0)->count();
 
-        $employes = $shop->users()->whereRole('employe')->get(); 
+        $employes = User::where('shop_id', $shop_id)->where('role', 'employe')->get(); 
 
-        return view('dashboard.proprietaire.employees', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes'));
+        $nbventes = \App\Models\Sale::where('shop_id', $shop_id)->count();
+        return view('dashboard.proprietaire.employees', compact('shops', 'shop', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes', 'nbventes'));
     
     }
 

@@ -72,8 +72,5 @@ class RecordController extends Controller
         $prixMoyenVentes = Sale::where('shop_id', $shop_id)->avg('total');
 
         return view('dashboard.proprietaire.historique', compact('shops', 'sales','shop', 'nbventes', 'totalventes', 'prixMoyenVentes', 'cats', 'prods', 'nbprods', 'en_stock', 'faible', 'rupture','employes'));
-    
-        
-        dd($shop_id, $sales->toArray());
     }
 }

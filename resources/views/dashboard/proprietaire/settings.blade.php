@@ -596,11 +596,8 @@
         setTimeout(() => {
             createCard.style.transform = 'translateY(-3px) scale(1.02)';
             
-            // Ici vous pouvez ajouter votre logique pour ouvrir un modal ou rediriger
-            console.log('Créer une nouvelle boutique');
-            
-            // Exemple de notification
-            showNotification('Redirection vers la création de boutique...', 'info');
+            // Redirection vers la création de boutique
+            window.location.href = "{{ route('shop.create') }}";
         }, 150);
     }
 

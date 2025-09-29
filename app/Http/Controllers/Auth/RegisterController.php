@@ -59,11 +59,10 @@ class RegisterController extends Controller
         }elseif ($user->role === 'employe') {
 
             if ($user->shop_id) {
-
-                return redirect()->route('dashboard', ['shop_id' => $user->shop_id])->with('success', 'Connexion réussie');
-
+                // Stocker l'ID de la boutique en session pour l'employé
+                session(['shop_id' => $user->shop_id]);
+                return redirect()->route('dashboard')->with('success', 'Connexion réussie');
             } else {
-                
                 return redirect('/login-register')->with('error', 'Aucune boutique assignée à ce compte employé.');
             }
         }
