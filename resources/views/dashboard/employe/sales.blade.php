@@ -237,7 +237,7 @@
 
         <!-- Sales Form -->
         <div class="sales-form">
-            <form action="{{ route('vente.store') }}" method="POST" id="salesForm">
+            <form action="{{ route('sales.store') }}" method="POST" id="salesForm">
                 @csrf
                 <input type="hidden" name="shop_id" value="{{ $shop->id ?? '' }}">
                 
