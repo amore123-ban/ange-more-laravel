@@ -95,8 +95,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/produits', [ProductController::class, 'index'])->name('produit');
-
-    Route::post('/produit-create', [ProductController::class, 'store']);
+    Route::post('/produit-create', [ProductController::class, 'store'])->name('product.store');
+    Route::put('/produits/{product}', [ProductController::class, 'update'])->name('product.update');
+    Route::delete('/produits/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
 
     Route::get('/ventes', [SaleController::class, 'index'])->name('vente');
     
