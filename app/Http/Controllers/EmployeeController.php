@@ -23,7 +23,6 @@ use App\Mail\EmployeeWelcomeMail;
 use App\Models\Product;
 
 use App\Models\Category;
-use App\Models\User;
 
 class EmployeeController extends Controller
 {

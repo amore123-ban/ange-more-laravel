@@ -448,18 +448,33 @@
                         </h5>
                     </div>
                     <div class="card-body p-0">
-                        <div class="activity-item">
-                            <div class="d-flex align-items-center">
-                                <div class="activity-icon success">
-                                    <i class="fas fa-shopping-cart text-white" style="font-size: 0.9rem;"></i>
-                                </div>
-                                <div class="activity-content flex-grow-1">
-                                    <h6>💰 Nouvelle vente</h6>
-                                    <p>Vente effectuée avec succès</p>
-                                    <small class="activity-time">Il y a quelques minutes</small>
+                        @if($nbventes > 0)
+                            <div class="activity-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="activity-icon success">
+                                        <i class="fas fa-shopping-cart text-white" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="activity-content flex-grow-1">
+                                        <h6>💰 Ventes enregistrées</h6>
+                                        <p>{{ $nbventes }} vente(s) effectuée(s) aujourd'hui</p>
+                                        <small class="activity-time">Activité récente</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="activity-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="activity-icon info">
+                                        <i class="fas fa-info-circle text-white" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="activity-content flex-grow-1">
+                                        <h6>📊 Aucune vente aujourd'hui</h6>
+                                        <p>Commencez par enregistrer votre première vente</p>
+                                        <small class="activity-time">Aujourd'hui</small>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="activity-item">
                             <div class="d-flex align-items-center">
@@ -468,24 +483,26 @@
                                 </div>
                                 <div class="activity-content flex-grow-1">
                                     <h6>📦 Gestion des produits</h6>
-                                    <p>Produits mis à jour dans le stock</p>
-                                    <small class="activity-time">Il y a 1 heure</small>
+                                    <p>{{ $nbprods }} produit(s) disponible(s) dans le stock</p>
+                                    <small class="activity-time">Stock actuel</small>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="activity-item">
-                            <div class="d-flex align-items-center">
-                                <div class="activity-icon warning">
-                                    <i class="fas fa-exclamation-triangle text-white" style="font-size: 0.9rem;"></i>
-                                </div>
-                                <div class="activity-content flex-grow-1">
-                                    <h6>⚠️ Stock faible</h6>
-                                    <p>Certains produits nécessitent un réapprovisionnement</p>
-                                    <small class="activity-time">Il y a 2 heures</small>
+                        @if($faible > 0)
+                            <div class="activity-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="activity-icon warning">
+                                        <i class="fas fa-exclamation-triangle text-white" style="font-size: 0.9rem;"></i>
+                                    </div>
+                                    <div class="activity-content flex-grow-1">
+                                        <h6>⚠️ Stock faible</h6>
+                                        <p>{{ $faible }} produit(s) nécessitent un réapprovisionnement</p>
+                                        <small class="activity-time">Attention requise</small>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

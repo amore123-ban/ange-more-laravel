@@ -1,6 +1,9 @@
-@extends('layouts.layout_proprio') 
+@extends('layouts.layout_proprio')
 
 @section('content')
+@php
+use Illuminate\Support\Str;
+@endphp
 
 <style>
   :root {
@@ -803,44 +806,50 @@
             </h5>
           </div>
           <div class="card-body p-0">
-            <div class="activity-item">
-              <div class="d-flex align-items-center">
-                <div class="activity-icon success">
-                  <i class="fas fa-shopping-cart text-white" style="font-size: 0.9rem;"></i>
+            @if($sales->count() > 0)
+              @foreach($sales->take(3) as $sale)
+                <div class="activity-item">
+                  <div class="d-flex align-items-center">
+                    <div class="activity-icon success">
+                      <i class="fas fa-shopping-cart text-white" style="font-size: 0.9rem;"></i>
+                    </div>
+                    <div class="activity-content flex-grow-1">
+                      <h6>💰 Nouvelle vente</h6>
+                      <p>{{ $sale->client_name }} - {{ number_format($sale->total, 0, ',', ' ') }} FCFA</p>
+                      <small class="activity-time">{{ $sale->created_at->diffForHumans() }}</small>
+                    </div>
+                  </div>
                 </div>
-                <div class="activity-content flex-grow-1">
-                  <h6>💰 Nouvelle vente</h6>
-                  <p>iPhone 15 Pro vendu à Jean Dupont</p>
-                  <small class="activity-time">Il y a 5 minutes</small>
+              @endforeach
+            @else
+              <div class="activity-item">
+                <div class="d-flex align-items-center">
+                  <div class="activity-icon info">
+                    <i class="fas fa-info-circle text-white" style="font-size: 0.9rem;"></i>
+                  </div>
+                  <div class="activity-content flex-grow-1">
+                    <h6>📊 Aucune activité récente</h6>
+                    <p>Commencez par enregistrer votre première vente</p>
+                    <small class="activity-time">Aujourd'hui</small>
+                  </div>
                 </div>
               </div>
-            </div>
+            @endif
 
-            <div class="activity-item">
-              <div class="d-flex align-items-center">
-                <div class="activity-icon info">
-                  <i class="fas fa-user-plus text-white" style="font-size: 0.9rem;"></i>
-                </div>
-                <div class="activity-content flex-grow-1">
-                  <h6>👤 Nouveau client</h6>
-                  <p>Marie Martin s'est inscrite</p>
-                  <small class="activity-time">Il y a 12 minutes</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="activity-item">
-              <div class="d-flex align-items-center">
-                <div class="activity-icon warning">
-                  <i class="fas fa-exclamation-triangle text-white" style="font-size: 0.9rem;"></i>
-                </div>
-                <div class="activity-content flex-grow-1">
-                  <h6>⚠️ Stock faible</h6>
-                  <p>MacBook Air - Plus que 3 unités</p>
-                  <small class="activity-time">Il y a 1 heure</small>
+            @if($faibles->count() > 0)
+              <div class="activity-item">
+                <div class="d-flex align-items-center">
+                  <div class="activity-icon warning">
+                    <i class="fas fa-exclamation-triangle text-white" style="font-size: 0.9rem;"></i>
+                  </div>
+                  <div class="activity-content flex-grow-1">
+                    <h6>⚠️ Stock faible</h6>
+                    <p>{{ $faibles->count() }} produit(s) nécessitent un réapprovisionnement</p>
+                    <small class="activity-time">Attention requise</small>
+                  </div>
                 </div>
               </div>
-            </div>
+            @endif
 
             <div class="text-center p-3">
               <button class="btn-outline-premium">
@@ -880,35 +889,43 @@
                 </tr>
               </thead>
               <tbody>
+                @forelse($faibles as $prod)
                 <tr>
-                  @foreach($faibles as $prod)
-                  <td><span class="fw-bold text-primary">#0{{$prod->nom}}</span></td>
+                  <td><span class="fw-bold text-primary">#{{$prod->id}}</span></td>
                   <td>
                     <div class="d-flex align-items-center">
                       <div class="icon-wrapper bg-danger bg-opacity-10 me-2" style="width: 32px; height: 32px;">
-                        <i class="fas fa-mobile-alt text-danger" style="font-size: 0.8rem;"></i>
+                        <i class="fas fa-box text-danger" style="font-size: 0.8rem;"></i>
                       </div>
                       <div>
                         <strong style="font-size: 0.875rem;">{{$prod->nom}}</strong>
-                        <br><small class="text-muted" style="font-size: 0.75rem;">Référence: IP15P-128</small>
+                        <br><small class="text-muted" style="font-size: 0.75rem;">{{$prod->description ? Str::limit($prod->description, 30) : 'Aucune description'}}</small>
                       </div>
                     </div>
                   </td>
-                  <td><span class="badge bg-primary bg-opacity-10 text-primary" style="font-size: 0.7rem;"> {{$prod->category->nom}}</span></td>
-                  <td><strong>{{$prod->prix}} FCFA</strong></td>
+                  <td><span class="badge bg-primary bg-opacity-10 text-primary" style="font-size: 0.7rem;">{{$prod->category->nom ?? 'Non catégorisé'}}</span></td>
+                  <td><strong>{{number_format($prod->prix, 0, ',', ' ')}} FCFA</strong></td>
                   <td>
                     <span class="badge bg-danger bg-opacity-10 text-danger" style="font-size: 0.7rem;">{{$prod->quantite}} unités</span>
                   </td>
                   <td>
-                    <span class="badge bg-success bg-opacity-10 text-success" style="font-size: 0.7rem;">Stock critique</span>
+                    <span class="badge bg-warning bg-opacity-10 text-warning" style="font-size: 0.7rem;">Stock faible</span>
                   </td>
                   <td>
-                    <button class="action-btn">
-                      <i class="fas fa-eye me-1"></i>Voir
-                    </button>
+                    <a href="{{ route('produit') }}" class="action-btn">
+                      <i class="fas fa-edit me-1"></i>Gérer
+                    </a>
                   </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                  <td colspan="7" class="text-center py-4">
+                    <i class="fas fa-check-circle text-success" style="font-size: 2rem;"></i>
+                    <h5 class="mt-3 text-muted">Excellent !</h5>
+                    <p class="text-muted">Tous vos produits ont un stock suffisant</p>
+                  </td>
+                </tr>
+                @endforelse
               </tbody>
             </table>
           </div>
