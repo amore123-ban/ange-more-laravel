@@ -652,6 +652,12 @@ function updateCartDisplay() {
     const checkoutForm = document.getElementById('checkoutForm');
     const cartCount = document.getElementById('cart-count');
     
+    // Vérifier que les éléments existent avant de les utiliser
+    if (!cartItems || !cartSummary || !checkoutForm || !cartCount) {
+        console.error('Required DOM elements not found');
+        return;
+    }
+    
     cartCount.textContent = cart.length;
     
     if (cart.length === 0) {
@@ -713,10 +719,17 @@ document.getElementById('checkoutForm').addEventListener('submit', function(e) {
         method: 'POST',
         body: formData,
         headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             alert('Vente enregistrée avec succès !');

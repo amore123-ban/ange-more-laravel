@@ -91,7 +91,8 @@ class SaleController extends Controller
 
             DB::commit();
             
-            if ($request->expectsJson()) {
+            // Pour les routes API, toujours retourner du JSON
+            if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Vente enregistrée avec succès',
@@ -104,7 +105,8 @@ class SaleController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             
-            if ($request->expectsJson()) {
+            // Pour les routes API, toujours retourner du JSON
+            if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
             }
             
