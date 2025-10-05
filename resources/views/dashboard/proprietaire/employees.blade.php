@@ -73,7 +73,7 @@
 
     .search-container {
         position: relative;
-        width: 620px;
+        width: 420px;
     }
 
     .search-input {
@@ -81,7 +81,7 @@
         border-radius: 50px;
         padding-left: 45px;
         height: 45px;
-        width:600px;
+        width:380px;
         transition: all 0.3s ease;
         background: white;
     }
@@ -407,7 +407,7 @@
                 </div>
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchProduct" class=" search-input" placeholder="Rechercher un employe...">
+                    <input type="text" id="searchProduct" class="search-input" placeholder="Rechercher un employe...">
                 </div>
                 
                 <div style="min-width: 250px;">
@@ -484,7 +484,7 @@
                         <li><hr class="dropdown-divider my-2"></li>
                         
                         <li>
-                            <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}">
                                 <i class="fas fa-sign-out-alt me-2"></i>
                                 Se déconnecter
                             </a>

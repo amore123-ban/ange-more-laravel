@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Shop;
 use App\Models\Sale;
+use App\Models\SaleDetail;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -50,7 +51,7 @@ class SaleController extends Controller
         }
     }
 
-    public function store(Request $request)
+public function store(Request $request)
     {
         DB::beginTransaction();
         
@@ -67,21 +68,37 @@ class SaleController extends Controller
                 'shop_id'       => $shop_id,
             ]);
 
-            // Gérer les produits du formulaire
+            // Produits du formulaire
             $products = $request->input('products', []);
             $quantities = $request->input('quantities', []);
-            
+            $detailsData = $request->input('details', []); // <-- pour les infos supplémentaires
+
             if (!empty($products) && !empty($quantities)) {
                 foreach ($products as $index => $productId) {
                     if (!empty($productId) && !empty($quantities[$index])) {
                         $product = Product::find($productId);
                         if ($product) {
+                            // Création de l'item principal
                             $sale->items()->create([
                                 'product_id' => $productId,
                                 'quantite'   => $quantities[$index],
                                 'prix'       => $product->prix,
                             ]);
 
+                            // 🔽 Ajout : enregistrer les infos spécifiques selon la catégorie
+                            $categoryName = strtolower($product->category->nom ?? '');
+                            $extraDetails = $detailsData[$index] ?? null;
+
+                            if ($extraDetails) {
+                                SaleDetail::create([
+                                    'sale_id'    => $sale->id,
+                                    'product_id' => $product->id,
+                                    'category'   => $categoryName,
+                                    'details'    => $extraDetails, // ex: {"imei":"123","couleur":"Noir"}
+                                ]);
+                            }
+
+                            // Mise à jour du stock
                             Product::where('id', $productId)
                                 ->decrement('quantite', $quantities[$index]);
                         }
@@ -90,8 +107,8 @@ class SaleController extends Controller
             }
 
             DB::commit();
-            
-            // Pour les routes API, toujours retourner du JSON
+
+            // Réponse API / Web
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json([
                     'success' => true,
@@ -99,20 +116,20 @@ class SaleController extends Controller
                     'redirect' => route('vente'),
                 ]);
             }
-            
+
             return redirect()->route('vente')->with('success', 'Vente enregistrée avec succès');
-            
+
         } catch (\Exception $e) {
             DB::rollBack();
-            
-            // Pour les routes API, toujours retourner du JSON
+
             if ($request->is('api/*') || $request->expectsJson()) {
                 return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
             }
-            
+
             return redirect()->back()->with('error', 'Erreur lors de l\'enregistrement: ' . $e->getMessage());
         }
     }
+
 
 
     

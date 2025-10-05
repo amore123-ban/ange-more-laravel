@@ -766,7 +766,7 @@
                 margin-bottom: 1.25rem;
             }
         }
-  </style>
+</style>
 
   <div class="main-content">
     <div class="container-fluid">
@@ -784,7 +784,10 @@
                         <small class="text-muted fw-medium">Vue d'ensemble de vos produits</small>
                     </div>
                 </div>
-
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchProduct" class="form-control search-input" placeholder="Rechercher un produit...">
+                </div>
                 <div style="min-width: 250px;">
                     <label class="form-label text-secondary fw-semibold text-uppercase small mb-2">
                         <i class="fas fa-filter me-1"></i>
@@ -920,12 +923,26 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
-                                                <button class="btn btn-outline-primary btn-sm rounded-start">
+                                                <button type="button"
+                                                        class="btn btn-outline-primary btn-sm rounded-start edit-btn"
+                                                        data-id="{{ $prod->id }}"
+                                                        data-nom="{{ $prod->nom }}"
+                                                        data-description="{{ $prod->description }}"
+                                                        data-prix="{{ $prod->prix }}"
+                                                        data-qte="{{ $prod->quantite }}"
+                                                        data-qte_min="{{ $prod->quantite_min }}"
+                                                        data-categorie="{{ $prod->category_id }}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#editProductModal">
                                                     <i class="fas fa-edit"></i>
                                                 </button>
-                                                <button class="btn btn-outline-danger btn-sm rounded-end">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+                                                <form method="POST" action="{{ route('product.destroy', $prod->id) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-end">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -957,7 +974,7 @@
                 </div>
             </div>
         </div>
-            <div class="modal " id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
+    <div class="modal " id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
 
@@ -1033,7 +1050,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>Annuler
                     </button>
-                    <button type="submit" class="btn btn-primary-custom" id="saveProductBtn"">
+                    <button type="submit" class="btn btn-primary-custom" id="saveProductBtn">
                         <i class="fas fa-save me-2"></i>Créer le produit
                     </button>
                 </div>
@@ -1044,4 +1061,85 @@
             
     </div>
             
+    <!-- Modal Édition -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form id="editProductForm" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modifier le produit</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                  <label>Nom</label>
+                  <input type="text" name="name" id="editNom" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                  <label>Description</label>
+                  <textarea name="description" id="editDescription" class="form-control"></textarea>
+              </div>
+              <div class="mb-3">
+                  <label>Prix</label>
+                  <input type="number" name="price" id="editPrix" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                  <label>Quantité</label>
+                  <input type="number" name="qte" id="editQte" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                  <label>Quantité minimale</label>
+                  <input type="number" name="qte_min" id="editQteMin" class="form-control" required>
+              </div>
+              <div class="mb-3">
+                  <label>Catégorie</label>
+                  <select name="id_categorie" id="editCategorie" class="form-control" required>
+                      @foreach($cats as $cat)
+                          <option value="{{ $cat->id }}">{{ $cat->nom }}</option>
+                      @endforeach
+                  </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+                                                            
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const form = document.getElementById('editProductForm');
+
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const nom = this.getAttribute('data-nom');
+            const description = this.getAttribute('data-description');
+            const prix = this.getAttribute('data-prix');
+            const qte = this.getAttribute('data-qte');
+            const qte_min = this.getAttribute('data-qte_min');
+            const categorie = this.getAttribute('data-categorie');
+
+            // Remplir les champs du modal
+
+            form.action = "{{ route('product.update', ':id') }}".replace(':id', id);
+
+            document.getElementById('editNom').value = nom;
+            document.getElementById('editDescription').value = description;
+            document.getElementById('editPrix').value = prix;
+            document.getElementById('editQte').value = qte;
+            document.getElementById('editQteMin').value = qte_min;
+            document.getElementById('editCategorie').value = categorie;
+        });
+    });
+});
+</script>
+
 @endsection

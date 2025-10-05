@@ -56,10 +56,12 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         
-        // Gestion différente selon le rôle
         if ($user->role === 'employe') {
+
             $shop_id = $user->shop_id;
+
             if (!$shop_id) {
+                
                 return redirect('/login-register')->with('error', 'Aucune boutique assignée à ce compte employé.');
             }
         } else {
@@ -70,7 +72,6 @@ class ProductController extends Controller
             $shop = Shop::where('user_id', Auth::id())->findOrFail($shop_id);
         }
 
-        // Validation
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -97,70 +98,79 @@ class ProductController extends Controller
         return redirect('/produits')->with('success', 'Produit ajouté avec succès');
     }
 
-    public function update(Request $request, Product $product)
+    public function edit($id)
     {
         $user = Auth::user();
-        
-        // Vérifier les permissions
+
         if ($user->role === 'employe') {
-            if ($product->shop_id !== $user->shop_id) {
-                return response()->json(['success' => false, 'message' => 'Accès non autorisé'], 403);
-            }
+
+            $product = Product::where('shop_id', $user->shop_id)->findOrFail($id);
+
         } else {
-            $shop = Shop::where('user_id', Auth::id())->find($product->shop_id);
-            if (!$shop) {
-                return response()->json(['success' => false, 'message' => 'Accès non autorisé'], 403);
-            }
+
+            $shop = Shop::where('user_id', Auth::id())->firstOrFail();
+
+            $product = Product::where('shop_id', $shop->id)->findOrFail($id);
         }
 
-        // Validation
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
-            'qte' => 'required|integer|min:0',
-            'qte_min' => 'required|integer|min:0',
-            'id_categorie' => 'required|exists:categories,id',
-        ]);
+        $categories = Category::all();
 
-        $product->update([
-            'nom' => $request->name,
-            'description' => $request->description,
-            'prix' => $request->price,
-            'quantite' => $request->qte,
-            'category_id' => $request->id_categorie,
-            'quantite_min' => $request->qte_min,
-        ]);
+        if ($user->role === 'employe') {
 
-        if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'message' => 'Produit modifié avec succès']);
+            return view('dashboard.employe.products', compact('product', 'categories'));
+
+        } else {
+
+            return view('dashboard.proprietaire.products', compact('product', 'categories'));
         }
-
-        return redirect('/produits')->with('success', 'Produit modifié avec succès');
     }
 
-    public function destroy(Product $product)
+   public function update(Request $request, $id)
     {
-        $user = Auth::user();
-        
-        // Vérifier les permissions
-        if ($user->role === 'employe') {
-            if ($product->shop_id !== $user->shop_id) {
-                return response()->json(['success' => false, 'message' => 'Accès non autorisé'], 403);
+        $product = Product::findOrFail($id);
+
+        $product->nom = $request->name;
+        $product->description = $request->description;
+        $product->prix = $request->price;
+        $product->quantite = $request->qte;
+        $product->quantite_min = $request->qte_min;
+        $product->category_id = $request->id_categorie;
+
+        $product->save();   
+
+            if ($request->expectsJson()) {
+
+                return response()->json(['success' => true, 'message' => 'Produit modifié avec succès']);
+
             }
-        } else {
-            $shop = Shop::where('user_id', Auth::id())->find($product->shop_id);
-            if (!$shop) {
-                return response()->json(['success' => false, 'message' => 'Accès non autorisé'], 403);
-            }
-        }
 
-        $product->delete();
-
-        if (request()->expectsJson()) {
-            return response()->json(['success' => true, 'message' => 'Produit supprimé avec succès']);
-        }
-
-        return redirect('/produits')->with('success', 'Produit supprimé avec succès');
+            return redirect('/produits')->with('success', 'Produit modifié avec succès');
     }
+
+   public function destroy($id){ 
+
+    $user = Auth::user();
+
+    $product = Product::findOrFail($id);
+
+    if ($user->role === 'employe') {
+        if ($product->shop_id !== $user->shop_id) {
+            return response()->json(['success' => false, 'message' => 'Accès non autorisé'], 403);
+        }
+    } else {
+        $shop = Shop::where('user_id', Auth::id())->find($product->shop_id);
+        if (!$shop) {
+            return response()->json(['success' => false, 'message' => 'Accès non autorisé'], 403);
+        }
+    }
+
+    $product->delete();
+
+    if (request()->expectsJson()) {
+        return response()->json(['success' => true, 'message' => 'Produit supprimé avec succès']);
+    }
+
+    return redirect('/produits')->with('success', 'Produit supprimé avec succès');
+}
+
 }

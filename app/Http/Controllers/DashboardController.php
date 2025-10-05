@@ -50,24 +50,33 @@ class DashboardController extends Controller
 
         $sales = Sale::where('shop_id', $shop_id)->orderBy('created_at', 'desc')->get();
 
-        $period = $request->input('period', '30'); 
-        $dateStart = match ($period) {
-            '7' => Carbon::now()->subDays(7),
-            '30' => Carbon::now()->subDays(30),
-            '90' => Carbon::now()->subMonths(3),
-            default => Carbon::now()->subDays(30),
-        };
+            $period = $request->input('period', '7');
+            $dateEnd = Carbon::now()->endOfDay();
 
-        $salesByDay = Sale::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as total'))
-            ->where('shop_id', $shop_id)
-            ->where('created_at', '>=', $dateStart)
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->get();
+            $dateStart = match ($period) {
+                '7'  => Carbon::now()->startOfDay()->subDays(6),   
+                '30' => Carbon::now()->startOfDay()->subDays(29), 
+                '90' => Carbon::now()->startOfDay()->subDays(89), 
+                default => Carbon::now()->startOfDay()->subDays(29),
+            };
 
-        $dates = $salesByDay->pluck('date');
-        $totals = $salesByDay->pluck('total');
-        $faibles = Product::whereColumn('quantite', '<=', 'quantite_min')->where('shop_id', $shop_id)->get();
+            $salesByDay = Sale::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as total'))
+                ->where('shop_id', $shop_id)
+                ->whereBetween('created_at', [$dateStart, $dateEnd])
+                ->groupBy('date')
+                ->orderBy('date', 'asc')
+                ->pluck('total', 'date')
+                ->toArray(); 
+
+            $dates = [];
+            $totals = [];
+            for ($d = $dateStart->copy(); $d->lte($dateEnd); $d->addDay()) {
+                $key = $d->format('Y-m-d');    
+                $dates[] = $d->format('d/m');   
+                $totals[] = isset($salesByDay[$key]) ? (float) $salesByDay[$key] : 0;
+            }
+
+            $faibles = Product::whereColumn('quantite', '<=', 'quantite_min')->where('shop_id', $shop_id)->get();
 
         // Choisir la vue selon le rôle
         if ($user->role === 'employe') {

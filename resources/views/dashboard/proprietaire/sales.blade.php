@@ -275,6 +275,64 @@
         margin-bottom: 0;
     }
 
+    /* Styles pour le modal des informations supplémentaires */
+    .extra-info-modal .modal-content {
+        border-radius: 12px;
+        border: none;
+        overflow: hidden;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .extra-info-modal .modal-header {
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
+        border-bottom: none;
+        padding: 1.5rem;
+    }
+
+    .extra-info-modal .form-label {
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 0.5rem;
+    }
+
+    .extra-info-modal .form-control,
+    .extra-info-modal .form-select {
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .extra-info-modal .form-control:focus,
+    .extra-info-modal .form-select:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+    }
+
+    .extra-info-modal .required-field {
+        position: relative;
+    }
+
+    .extra-info-modal .required-field .form-label::after {
+        content: ' *';
+        color: #dc2626;
+        font-weight: bold;
+    }
+
+    .category-badge {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 1rem;
+    }
+
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -447,7 +505,8 @@
                                     <i class="fas fa-circle fs-6"></i>
                                     {{ $prod->quantite }} en stock
                                 </span>
-                                <button class="btn-select-product" onclick="addToCart({{ $prod->id }}, '{{ $prod->nom }}', {{ $prod->prix }}, {{ $prod->quantite }})"
+                                <button class="btn-select-product" 
+                                    onclick="addToCart({{ $prod->id }}, '{{ $prod->nom }}', {{ $prod->prix }}, {{ $prod->quantite }}, '{{ $prod->category->nom ?? '' }}')"
                                     {{ $prod->quantite <= 0 ? 'disabled' : '' }}>
                                     <i class="fas fa-plus me-2"></i>Ajouter
                                 </button>
@@ -575,11 +634,75 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal pour les informations supplémentaires -->
+            <div class="modal fade extra-info-modal" id="extraInfoModal" tabindex="-1" aria-labelledby="extraInfoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <form id="extraInfoForm">
+                            <div class="modal-header">
+                                <div>
+                                    <h5 class="modal-title text-white mb-1" id="extraInfoModalLabel">
+                                        <i class="fas fa-info-circle me-2"></i>Informations supplémentaires
+                                    </h5>
+                                    <div class="category-badge">
+                                        <i class="fas fa-tag me-1"></i>
+                                        <span id="product-category"></span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="alert alert-info">
+                                    <i class="fas fa-lightbulb me-2"></i>
+                                    Veuillez saisir les informations spécifiques pour ce produit :
+                                    <strong id="product-name-display"></strong>
+                                </div>
+                                <div id="extra-fields-container" class="row">
+                                    <!-- Les champs dynamiques seront insérés ici -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                    <i class="fas fa-times me-2"></i>Annuler
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Ajouter au panier
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+
+// Définir les champs supplémentaires par catégorie
+const categoriesExtraFields = {
+    "telephones": [
+        { label: "IMEI", name: "imei", type: "text", required: true, placeholder: "Entrez l'IMEI" },
+        { label: "Couleur", name: "couleur", type: "select", required: true, options: ["Noir", "Blanc", "Rouge", "Bleu", "Vert", "Rose", "Autre"] },
+        { label: "Numéro de série", name: "serial", type: "text", required: false, placeholder: "Numéro de série (optionnel)" },
+        { label: "Capacité de stockage", name: "storage", type: "select", required: true, options: ["32GB", "64GB", "128GB", "256GB", "512GB", "1TB"] }
+    ],
+    "ordinateurs": [
+        { label: "RAM", name: "ram", type: "select", required: true, options: ["4GB", "8GB", "16GB", "32GB", "64GB"] },
+        { label: "Stockage", name: "storage", type: "select", required: true, options: ["128GB SSD", "256GB SSD", "512GB SSD", "1TB SSD", "1TB HDD", "2TB HDD"] },
+        { label: "Processeur", name: "processor", type: "text", required: false, placeholder: "Type de processeur" }
+    ],
+    "vehicules": [
+        { label: "Numéro d'immatriculation", name: "license_plate", type: "text", required: true, placeholder: "XX-XXXX-XX" },
+        { label: "Couleur", name: "couleur", type: "select", required: true, options: ["Noir", "Blanc", "Rouge", "Bleu", "Gris", "Vert", "Autre"] },
+        { label: "Kilométrage", name: "mileage", type: "number", required: false, placeholder: "Kilométrage actuel" }
+    ],
+    "electromenager": [
+        { label: "Garantie (mois)", name: "warranty", type: "select", required: true, options: ["6", "12", "24", "36"] },
+        { label: "Numéro de série", name: "serial", type: "text", required: false, placeholder: "Numéro de série" }
+    ]
+};
 
 document.getElementById('searchProduct').addEventListener('input', function(e) {
     const searchTerm = e.target.value.toLowerCase();
@@ -616,39 +739,126 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Fonction pour générer les champs du formulaire dynamique
+function generateExtraFields(fields) {
+    return fields.map(field => {
+        let inputHtml = '';
+        const requiredClass = field.required ? 'required-field' : '';
+        const colClass = fields.length <= 2 ? 'col-12' : 'col-md-6';
+
+        if (field.type === 'select' && field.options) {
+            const options = field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+            inputHtml = `<select class="form-select" name="${field.name}" ${field.required ? 'required' : ''}><option value="">Sélectionner...</option>${options}</select>`;
+        } else {
+            inputHtml = `<input type="${field.type}" class="form-control" name="${field.name}" placeholder="${field.placeholder || ''}" ${field.required ? 'required' : ''}>`;
+        }
+
+        return `
+            <div class="${colClass} mb-3">
+                <div class="${requiredClass}">
+                    <label class="form-label">${field.label}</label>
+                    ${inputHtml}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+// Fonction pour afficher le modal dynamique amélioré
+function showExtraInfoModal(product, callback) {
+    const categoryName = (product.category_name || "").toLowerCase();
+    const fields = categoriesExtraFields[categoryName];
+    
+    if (!fields || fields.length === 0) {
+        callback({}); // pas de champs supplémentaires
+        return;
+    }
+
+    // Mettre à jour le contenu du modal
+    document.getElementById('extraInfoModalLabel').innerHTML = `<i class="fas fa-info-circle me-2"></i>Informations supplémentaires`;
+    document.getElementById('product-category').textContent = product.category_name || 'Catégorie';
+    document.getElementById('product-name-display').textContent = product.nom;
+    
+    // Générer et insérer les champs
+    const fieldsContainer = document.getElementById('extra-fields-container');
+    fieldsContainer.innerHTML = generateExtraFields(fields);
+
+    // Afficher le modal
+    const modal = new bootstrap.Modal(document.getElementById('extraInfoModal'));
+    modal.show();
+
+    // Gérer la soumission du formulaire
+    const form = document.getElementById('extraInfoForm');
+    form.onsubmit = function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const extraData = {};
+        
+        for (let [key, value] of formData.entries()) {
+            extraData[key] = value;
+        }
+        
+        modal.hide();
+        callback(extraData);
+        
+        // Réinitialiser le formulaire pour la prochaine utilisation
+        form.reset();
+    };
+}
+
 let cart = [];
 let currentCartData = [];
 const MAX_QUANTITY = 99;
 
-function addToCart(id, nom, prix, quantite_max) {
-    const existingItem = cart.find(item => item.id === id);
-    
-    if (existingItem) {
-        if (existingItem.quantite < Math.min(quantite_max, MAX_QUANTITY)) {
-            existingItem.quantite++;
-            updateCartDisplay();
+function addToCart(id, nom, prix, quantite_max, category_name = "") {
+    const product = { id, nom, prix, quantite_max, category_name };
+
+    showExtraInfoModal(product, (extraDetails) => {
+        // Créer un identifiant unique pour ce produit avec ses détails spécifiques
+        const uniqueId = `${id}_${JSON.stringify(extraDetails)}`;
+        const existingItem = cart.find(item => item.uniqueId === uniqueId);
+
+        if (existingItem) {
+            if (existingItem.quantite < Math.min(quantite_max, MAX_QUANTITY)) {
+                existingItem.quantite++;
+                showCustomAlert(`Quantité augmentée pour ${nom}`, 'success');
+            } else {
+                showCustomAlert('Quantité maximum atteinte pour ce produit', 'warning');
+                return;
+            }
         } else {
-            showCustomAlert('Quantité maximum atteinte pour ce produit');
+            // Créer un nom d'affichage avec les détails
+            let displayName = nom;
+            if (Object.keys(extraDetails).length > 0) {
+                const details = Object.values(extraDetails).filter(v => v).join(', ');
+                displayName = `${nom} (${details})`;
+            }
+
+            cart.push({
+                id: id,
+                uniqueId: uniqueId,
+                nom: nom,
+                displayName: displayName,
+                prix: prix,
+                quantite: 1,
+                quantite_max: quantite_max,
+                extra: extraDetails
+            });
+            
+            showCustomAlert(`${nom} ajouté au panier!`, 'success');
         }
-    } else {
-        cart.push({
-            id: id,
-            nom: nom,
-            prix: prix,
-            quantite: 1,
-            quantite_max: quantite_max
-        });
         updateCartDisplay();
-    }
+    });
 }
 
-function removeFromCart(id) {
-    cart = cart.filter(item => item.id !== id);
+function removeFromCart(uniqueId) {
+    cart = cart.filter(item => item.uniqueId !== uniqueId);
     updateCartDisplay();
 }
 
-function updateQuantity(id, delta) {
-    const item = cart.find(item => item.id === id);
+function updateQuantity(uniqueId, delta) {
+    const item = cart.find(item => item.uniqueId === uniqueId);
     if (item) {
         const newQuantity = item.quantite + delta;
         if (newQuantity > 0 && newQuantity <= Math.min(item.quantite_max, MAX_QUANTITY)) {
@@ -665,16 +875,23 @@ function updateCartDisplay() {
     cartContainer.innerHTML = cart.map(item => `
         <div class="cart-item mb-3 pb-3 border-bottom">
             <div class="d-flex justify-content-between align-items-center mb-2">
-                <h6 class="product-name mb-0">${item.nom}</h6>
-                <button class="btn btn-sm text-danger" onclick="removeFromCart(${item.id})">
+                <h6 class="product-name mb-0" title="${item.displayName}">${item.displayName}</h6>
+                <button class="btn btn-sm text-danger" onclick="removeFromCart('${item.uniqueId}')">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            ${Object.keys(item.extra || {}).length > 0 ? `
+                <div class="mb-2">
+                    <small class="text-muted">
+                        ${Object.entries(item.extra).map(([key, value]) => `<span class="badge bg-light text-dark me-1">${key}: ${value}</span>`).join('')}
+                    </small>
+                </div>
+            ` : ''}
             <div class="d-flex justify-content-between align-items-center">
                 <div class="quantity-controls">
-                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, -1)">-</button>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity('${item.uniqueId}', -1)">-</button>
                     <span class="mx-2 item-quantity">${item.quantite}</span>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity(${item.id}, 1)">+</button>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity('${item.uniqueId}', 1)">+</button>
                 </div>
                 <div class="text-primary fw-bold item-total">
                     ${(item.prix * item.quantite).toLocaleString()} FCFA
@@ -693,7 +910,7 @@ function updateCartDisplay() {
 
 function showOrderSummary() {
     if (cart.length === 0) {
-        showCustomAlert("Votre panier est vide !");
+        showCustomAlert("Votre panier est vide !", 'warning');
         return;
     }
     
@@ -706,10 +923,11 @@ function showOrderSummary() {
     
     cart.forEach(item => {
         currentCartData.push({
-            name: item.nom,
+            name: item.displayName,
             quantity: item.quantite,
             price: item.prix.toLocaleString() + ' FCFA',
-            total: (item.prix * item.quantite).toLocaleString() + ' FCFA'
+            total: (item.prix * item.quantite).toLocaleString() + ' FCFA',
+            extra: item.extra
         });
         
         totalItems += item.quantite;
@@ -722,6 +940,11 @@ function showOrderSummary() {
                 <div>
                     <div class="fw-bold">${item.name}</div>
                     <small class="text-muted">${item.quantity} × ${item.price}</small>
+                    ${Object.keys(item.extra || {}).length > 0 ? `
+                        <div class="mt-1">
+                            ${Object.entries(item.extra).map(([key, value]) => `<small class="badge bg-info me-1">${key}: ${value}</small>`).join('')}
+                        </div>
+                    ` : ''}
                 </div>
                 <div class="fw-bold text-primary">${item.total}</div>
             </div>
@@ -749,7 +972,14 @@ document.getElementById('confirmSaleModal').addEventListener('show.bs.modal', fu
     // Mettre à jour le récapitulatif dans le modal
     const modalSummaryHTML = currentCartData.map(item => `
         <div class="d-flex justify-content-between mb-2">
-            <span>${item.name} (${item.quantity})</span>
+            <div>
+                <span>${item.name} (${item.quantity})</span>
+                ${Object.keys(item.extra || {}).length > 0 ? `
+                    <div>
+                        ${Object.entries(item.extra).map(([key, value]) => `<small class="text-muted">${key}: ${value}</small>`).join(', ')}
+                    </div>
+                ` : ''}
+            </div>
             <span>${item.total}</span>
         </div>
     `).join('');
@@ -780,29 +1010,54 @@ function calculateChange() {
     }
 }
 
-function showCustomAlert(message) {
+function showCustomAlert(message, type = 'info') {
+    let iconClass = 'fas fa-info-circle text-info';
+    let bgClass = 'bg-info';
+    
+    if (type === 'success') {
+        iconClass = 'fas fa-check-circle text-success';
+        bgClass = 'bg-success';
+    } else if (type === 'warning') {
+        iconClass = 'fas fa-exclamation-triangle text-warning';
+        bgClass = 'bg-warning';
+    } else if (type === 'error') {
+        iconClass = 'fas fa-exclamation-circle text-danger';
+        bgClass = 'bg-danger';
+    }
+
     const modal = document.createElement('div');
     modal.className = 'fixed-top d-flex align-items-center justify-content-center';
     modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;';
     modal.innerHTML = `
-        <div class="bg-white p-4 rounded shadow-lg" style="max-width: 400px; margin: 20px;">
+        <div class="bg-white p-4 rounded-3 shadow-lg animate-fade-in" style="max-width: 400px; margin: 20px;">
             <div class="text-center mb-3">
-                <i class="fas fa-exclamation-circle text-warning fs-1"></i>
+                <div class="${bgClass} bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <i class="${iconClass} fs-2"></i>
+                </div>
             </div>
-            <p class="text-center mb-4">${message}</p>
+            <p class="text-center mb-4 fs-6">${message}</p>
             <div class="text-center">
-                <button class="btn btn-primary" onclick="this.closest('.fixed-top').remove()">OK</button>
+                <button class="btn btn-primary px-4" onclick="this.closest('.fixed-top').remove()">OK</button>
             </div>
         </div>
     `;
     document.body.appendChild(modal);
+    
+    // Auto-remove après 3 secondes pour les messages de succès
+    if (type === 'success') {
+        setTimeout(() => {
+            if (modal.parentElement) {
+                modal.remove();
+            }
+        }, 3000);
+    }
 }
 
 function submitSaleForm(event) {
-    // event.preventDefault(); // Empêche le rechargement de la page
+    event.preventDefault();
 
     if (cart.length === 0) {
-        showCustomAlert("Votre panier est vide !");
+        showCustomAlert("Votre panier est vide !", 'warning');
         return;
     }
 
@@ -812,12 +1067,12 @@ function submitSaleForm(event) {
     const total = cart.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
 
     if (!clientName) {
-        showCustomAlert("Veuillez entrer le nom du client.");
+        showCustomAlert("Veuillez entrer le nom du client.", 'warning');
         return;
     }
 
     if (isNaN(montantPercu) || montantPercu < total) {
-        showCustomAlert("Le montant perçu doit être supérieur ou égal au total (" + total.toLocaleString() + " FCFA).");
+        showCustomAlert("Le montant perçu doit être supérieur ou égal au total (" + total.toLocaleString() + " FCFA).", 'warning');
         return;
     }
 
@@ -826,11 +1081,9 @@ function submitSaleForm(event) {
         montant_recu: montantPercu,
         mode_paiement: modePaiement,
         total: total,
-        items: cart.map(item => ({
-            product_id: item.id,
-            quantite: item.quantite,
-            prix: item.prix
-        }))
+        products: cart.map(item => item.id),
+        quantities: cart.map(item => item.quantite),
+        details: cart.map(item => item.extra || {}) // informations supplémentaires
     };
 
     const submitBtn = document.querySelector('#confirmSaleForm button[type="submit"]');
@@ -849,7 +1102,7 @@ function submitSaleForm(event) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            showCustomAlert('Vente effectuée avec succès !');
+            showCustomAlert('Vente effectuée avec succès !', 'success');
             cart = [];
             updateCartDisplay();
 
@@ -862,12 +1115,12 @@ function submitSaleForm(event) {
                 document.getElementById('change-display').style.display = 'none';
             }, 500);
         } else {
-            showCustomAlert('Erreur lors de la vente : ' + data.message);
+            showCustomAlert('Erreur lors de la vente : ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Erreur:', error);
-        showCustomAlert('Une erreur est survenue lors du traitement de la vente');
+        showCustomAlert('Une erreur est survenue lors du traitement de la vente', 'error');
     })
     .finally(() => {
         submitBtn.innerHTML = originalText;

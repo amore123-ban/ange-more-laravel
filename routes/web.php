@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/select-boutique', [ShopController::class, 'select'])->name('shop.select');
+
     // Route::post('/select-boutique', [shopController::class, 'selected'])->name('shop-selected');
 
     // Route::post('/select-boutique', [shopController::class, 'storeSelected'])->name('shop-storeSelected');
@@ -95,9 +96,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/produits', [ProductController::class, 'index'])->name('produit');
+
     Route::post('/produit-create', [ProductController::class, 'store'])->name('product.store');
-    Route::put('/produits/{product}', [ProductController::class, 'update'])->name('product.update');
-    Route::delete('/produits/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+    Route::get('/produits/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+
+    Route::put('/produits/{id}', [ProductController::class, 'update'])->name('product.update');
+
+    Route::delete('/produits/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
 
     Route::get('/ventes', [SaleController::class, 'index'])->name('vente');
     
@@ -112,6 +118,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/facture/{id}', [App\Http\Controllers\FactureController::class, 'downloadInvoice'])->name('facture.download');
 
     Route::get('/parametres', [SettingController::class, 'index'])->name('setting');
+
+    Route::get('/dashboard/data', [DashboardController::class, 'getChartData'])->name('dashboard.data');
+
 
 });
 

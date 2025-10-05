@@ -786,9 +786,14 @@ use Illuminate\Support\Str;
                 <p class="chart-subtitle">Analyse des performances sur la période sélectionnée</p>
               </div>
               <div class="period-buttons">
-                <button class="period-btn active">7j</button>
-                <button class="period-btn">30j</button>
-                <button class="period-btn">3m</button>
+                <a href="{{ route('dashboard', ['period' => 7]) }}" 
+                  class="period-btn {{ $period == 7 ? 'active' : '' }} text-decoration-none">7j</a>
+
+                <a href="{{ route('dashboard', ['period' => 30]) }}" 
+                  class="period-btn {{ $period == 30 ? 'active' : '' }} text-decoration-none">30j</a>
+
+                <a href="{{ route('dashboard', ['period' => 90]) }}" 
+                  class="period-btn {{ $period == 90 ? 'active' : '' }} text-decoration-none">3m</a>
               </div>
             </div>
           </div>
@@ -870,9 +875,9 @@ use Illuminate\Support\Str;
                 <h5 class="table-title "> <p class=" ps-2 border-3 border-start border-primary">Alerte Stock</p></h5>
                 <p class="table-subtitle">Produits nécessitant un réapprovisionnement</p>
               </div>
-              <button class="btn-premium" href="/produits">
+              <a href="{{ route('produit')}}" class="btn-premium text-decoration-none" href="/produits">
                 <i class="fas fa-plus me-1"></i>Réapprovisionner
-              </button>
+              </a>
             </div>
           </div>
           <div class="card-body p-0">
@@ -935,166 +940,42 @@ use Illuminate\Support\Str;
   </div>
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
-document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('salesChart').getContext('2d');
-    
-    const gradient = ctx.createLinearGradient(0, 0, 0, 250);
-    gradient.addColorStop(0, 'rgba(37, 99, 235, 0.3)');
-    gradient.addColorStop(1, 'rgba(37, 99, 235, 0.05)');
-
-    new Chart(ctx, {
+    const salesChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+            labels: @json($dates), 
             datasets: [{
-                label: 'Ventes (€)',
-                data: [1200, 1900, 1500, 2200, 2800, 2100, 2500],
+                label: 'Montant des ventes',
+                data: @json($totals),
                 borderColor: '#2563eb',
-                backgroundColor: gradient,
-                borderWidth: 3,
+                backgroundColor: 'rgba(63, 112, 186, 0.2)',
                 fill: true,
                 tension: 0.4,
                 pointBackgroundColor: '#2563eb',
-                pointBorderColor: '#ffffff',
-                pointBorderWidth: 2,
-                pointRadius: 4,
-                pointHoverRadius: 6
+                pointRadius: 5,
+                pointHoverRadius: 8
             }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    display: false
+                legend: { position: 'top' },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => context.raw + ' FCFA'
+                    }
                 }
             },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    },
-                    ticks: {
-                        callback: function(value) {
-                            return value + 'FCFA';
-                        }
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            interaction: {
-                intersect: false,
-                mode: 'index'
-            },
-            elements: {
-                point: {
-                    hoverBackgroundColor: '#2563eb'
-                }
+                x: { title: { display: true, text: 'Date' }},
+                y: { beginAtZero: true, title: { display: true, text: 'Montant (FCFA)' }}
             }
         }
     });
-
-    // Animation des cartes au chargement
-    const cards = document.querySelectorAll('.stats-card, .chart-card, .activity-card, .table-card');
-    cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(15px)';
-        
-        setTimeout(() => {
-            card.style.transition = 'all 0.5s ease-out';
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 80);
-    });
-
-    // Gestion des boutons de période
-    const periodBtns = document.querySelectorAll('.period-btn');
-    periodBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            periodBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-});
 </script>
-
-<!-- Section Statistiques -->
-<section id="statistiques" class="mt-5">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="stats-card">
-                    <div class="card-body">
-                        <h4 class="fw-bold mb-4">
-                            <i class="fas fa-chart-bar text-primary me-2"></i>
-                            Statistiques Détaillées
-                        </h4>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <h6 class="fw-semibold mb-3">Performance des Ventes</h6>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span>Total des ventes:</span>
-                                    <strong class="text-primary">{{ $nbventes }}</strong>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span>Chiffre d'affaires:</span>
-                                    <strong class="text-success">{{ number_format($totalventes, 0, ',', ' ') }} FCFA</strong>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span>Vente moyenne:</span>
-                                    <strong class="text-info">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</strong>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6 mb-4">
-                                <h6 class="fw-semibold mb-3">État du Stock</h6>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span>Total produits:</span>
-                                    <strong class="text-primary">{{ $nbprods }}</strong>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span>En stock:</span>
-                                    <strong class="text-success">{{ $en_stock }}</strong>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <span>Stock faible:</span>
-                                    <strong class="text-warning">{{ $faibles->count() }}</strong>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        @if($faibles->count() > 0)
-                        <div class="mt-4">
-                            <h6 class="fw-semibold mb-3 text-warning">
-                                <i class="fas fa-exclamation-triangle me-2"></i>
-                                Produits en Stock Faible
-                            </h6>
-                            <div class="row">
-                                @foreach($faibles->take(6) as $product)
-                                <div class="col-md-4 mb-2">
-                                    <div class="alert alert-warning py-2 mb-0">
-                                        <strong>{{ $product->nom }}</strong><br>
-                                        <small>Stock: {{ $product->quantite }} | Min: {{ $product->quantite_min }}</small>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 @endsection
