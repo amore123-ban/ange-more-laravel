@@ -17,11 +17,145 @@
       --header-height: 80px;
       --card-radius: 12px;
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --primary-color: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --primary-subtle: rgba(37, 99, 235, 0.1);
+      --primary-ghost: rgba(37, 99, 235, 0.05);
+    }
+
+    /* ===== STYLES NAVBAR ONGLETS ===== */
+    .settings-header {
+        background: linear-gradient(135deg, white 0%, #f8fafc 100%);
+        border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+        box-shadow: 0 2px 10px rgba(37, 99, 235, 0.08);
+        margin-left: var(--sidebar-width);
+        margin-bottom: 1.5rem;
+        margin-top: 1rem;
+        border-radius: 0.75rem;
+        border: 2px solid #2563eb;
+    }
+
+    .settings-icon {
+        width: 3rem;
+        height: 3rem;
+        background: var(--primary-subtle);
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-color);
+        margin-right: 1rem;
+    }
+
+    .nav-tabs-custom {
+        border-bottom: 2px solid #e9ecef;
+        background: white;
+        border-radius: 0.75rem 0.75rem 0 0;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        height: 60px;
+        flex-wrap: nowrap;
+        margin-left: var(--sidebar-width);
+    }
+
+    .nav-tabs-custom .nav-link {
+        border: none;
+        color: #6b7280;
+        font-weight: 500;
+        padding: 1.25rem 2rem;
+        border-radius: 0;
+        transition: all 0.3s ease;
+        position: relative;
+        white-space: nowrap;
+        min-width: fit-content;
+    }
+
+    .nav-tabs-custom .nav-link:hover {
+        color: var(--primary-color);
+        background: var(--primary-ghost);
+        border-color: transparent;
+    }
+
+    .nav-tabs-custom .nav-link.active {
+        color: var(--primary-color);
+        background: var(--primary-ghost);
+        border-color: transparent;
+        font-weight: 600;
+    }
+
+    .nav-tabs-custom .nav-link.active::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+        border-radius: 2px 2px 0 0;
+    }
+
+    .tab-icon {
+        margin-right: 0.5rem;
+        font-size: 1.1em;
+    }
+
+    .tab-content-custom {
+        background: white;
+        border-radius: 0 0 0.75rem 0.75rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        min-height: 500px;
+        margin-left: var(--sidebar-width);
+    }
+
+    .content-card {
+        background: white;
+        border-radius: 0.75rem;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+    }
+
+    .content-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
+    }
+
+    .badge-custom {
+        background: var(--primary-subtle);
+        color: var(--primary-color);
+        font-weight: 500;
+        padding: 0.375rem 0.75rem;
+        border-radius: 2rem;
+    }
+
+    .btn-primary-custom {
+        background: var(--primary-color);
+        border-color: var(--primary-color);
+        border-radius: 0.5rem;
+        font-weight: 500;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        color: white;
+    }
+
+    .fade-in {
+        animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .main-content {
-      margin-left: var(--sidebar-width);
-      padding: 16px;
+      margin-left: 0;
+      padding: 0;
       transition: all 0.3s ease;
     }
 
@@ -437,10 +571,30 @@
         animation: float-sparkle 1s ease-in-out infinite;
     }
 
+    /* Responsive */
     @media (max-width: 768px) {
         .main-content {
             margin-left: 0;
             padding: 12px;
+        }
+        
+        .settings-header {
+            margin-left: 0;
+        }
+        
+        .nav-tabs-custom {
+            margin-left: 0;
+            border-radius: 0;
+        }
+        
+        .tab-content-custom {
+            margin-left: 0;
+            border-radius: 0;
+        }
+
+        .nav-tabs-custom .nav-link {
+            padding: 1rem 1.25rem;
+            font-size: 0.9rem;
         }
 
         .shop-card, .create-shop-card {
@@ -468,111 +622,259 @@
         .shop-actions {
             flex-direction: row;
         }
+        
+        .tab-icon {
+            margin-right: 0.25rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .nav-tabs-custom .nav-link {
+            padding: 0.875rem 1rem;
+            font-size: 0.85rem;
+        }
     }
 </style>
-
 <div class="main-content">
     <div class="container-fluid">
-        <div class="d-flex align-items-center bg-white rounded-3 shadow-sm p-3 mb-4 animate-fade-in-up">
-            <div class="more d-flex align-items-center">
-                <div class="me-3">
-                    <i class="fas fa-store text-primary fs-4"></i>
+        
+<!-- Header de la section Paramètres -->
+        <div class="settings-header">
+            <div class="container-fluid py-4">
+                <div class="d-flex align-items-center">
+                    <div class="settings-icon">
+                        <i class="fas fa-cog fa-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="h3 mb-1 fw-semibold">Paramètres</h1>
+                        <p class="text-muted mb-0">Gérez vos boutiques, profil et abonnements</p>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="mb-0 fw-bold text-dark">Mes Boutiques</h4>
-                    <small class="text-muted">Gérez toutes vos boutiques en ligne</small>
-                </div>
-            </div>
-            <div class="ms-auto">
-                <form action="{{ route('dashboard') }}" method="GET" id="boutiqueFilterForm">
-                    <select name="boutique_id" id="boutiqueSelect" class="form-select text-primary bg-primary bg-opacity-10 border-primary border-opacity-25 rounded-3 px-3 py-2">
-                        @if($shop)
-                            <option value="{{ $shop->id }}"
-                                {{ request('shop_id') == $shop->id ? 'selected' : '' }}>
-                                🏪 {{ $shop->nom }}
-                            </option>
-                        @endif
-                    </select>             
-                </form>
             </div>
         </div>
 
-        @if(Auth::user()->role === 'proprietaire')
-       <div class="row g-4">
-            @forelse($shops as $shop)
-                <div class="col-lg-4 col-md-6">
-                    <div class="shop-card">
-                        <span class="status-badge status-active">Actif</span>
-                        <div class="shop-icon">
-                            <i class="fas fa-store"></i>
-                        </div>
-                        <h3 class="shop-name">{{ $shop->nom }}</h3>
-                        <p class="shop-description">{{ $shop->description ?? 'Aucune description' }}</p>
-                        
-                        <div class="shop-stats">
-                            <div class="stat-item">
-                                <span class="stat-value"></span>
-                                <span class="stat-label">Produits</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value"></span>
-                                <span class="stat-label">Ventes</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-value"></span>
-                                <span class="stat-label">Note</span>
-                            </div>
-                        </div>
+        <!-- Navigation par onglets -->
+        <div class="flex-grow-1">
+            <div class="container-fluid p-0">
+                <ul class="nav nav-tabs nav-tabs-custom" id="settingsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="boutiques-tab" data-bs-toggle="tab" data-bs-target="#boutiques" type="button" role="tab">
+                            <i class="fas fa-store tab-icon"></i>Mes Boutiques
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profil-tab" data-bs-toggle="tab" data-bs-target="#profil" type="button" role="tab">
+                            <i class="fas fa-user tab-icon"></i>Profil
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="abonnements-tab" data-bs-toggle="tab" data-bs-target="#abonnements" type="button" role="tab">
+                            <i class="fas fa-crown tab-icon"></i>Mes Abonnements
+                        </button>
+                    </li>
+                </ul>
 
-                        <div class="shop-actions">
-                            <form action="{{ route('shop-selected', $shop->id)  }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="shop_id" value="{{ $shop->id }}">
-                                <button class="btn btn-access" type="submit">
-                                    <i class="fas fa-arrow-right me-2"></i>Accéder
-                                </button>
-                            </form>
-                            <button class="btn btn-manage">
-                                <i class="fas fa-cog"></i>
-                            </button>
+                <div class="tab-content tab-content-custom mt-3" id="settingsTabContent">
+                    <div class="tab-pane fade show active fade-in" id="boutiques" role="tabpanel">
+                        <div class="main-content">
+                            <div class="container-fluid">
+                                
+
+                                @if(Auth::user()->role === 'proprietaire')
+                                    <div class="row g-4">
+                                        @forelse($shops as $shop)
+                                            <div class="col-lg-4 col-md-6">
+                                                <div class="shop-card">
+                                                    <span class="status-badge status-active">Actif</span>
+                                                    <div class="shop-icon">
+                                                        <i class="fas fa-store"></i>
+                                                    </div>
+                                                    <h3 class="shop-name">{{ $shop->nom }}</h3>
+                                                    <p class="shop-description">{{ $shop->description ?? 'Aucune description' }}</p>
+                                                    
+                                                    <div class="shop-stats">
+                                                        <div class="stat-item">
+                                                            <span class="stat-value"></span>
+                                                            <span class="stat-label">Produits</span>
+                                                        </div>
+                                                        <div class="stat-item">
+                                                            <span class="stat-value"></span>
+                                                            <span class="stat-label">Ventes</span>
+                                                        </div>
+                                                        <div class="stat-item">
+                                                            <span class="stat-value"></span>
+                                                            <span class="stat-label">Note</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="shop-actions">
+                                                        <form action="{{ route('shop-selected', $shop->id)  }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="shop_id" value="{{ $shop->id }}">
+                                                            <button class="btn btn-access" type="submit">
+                                                                <i class="fas fa-arrow-right me-2"></i>Accéder
+                                                            </button>
+                                                        </form>
+                                                        <button class="btn btn-manage">
+                                                            <i class="fas fa-cog"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @empty
+                                            <div class="empty-state">
+                                                <i class="fas fa-store-slash"></i>
+                                                <h4>Aucune boutique trouvée</h4>
+                                                <p>Créez votre première boutique pour commencer à vendre.</p>
+                                                <a href="{{ route('shop.create') }}" class="btn btn-primary mt-3">
+                                                    <i class="fas fa-plus"></i> Créer une boutique
+                                                </a>
+                                            </div>
+                                        @endforelse
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="create-shop-card animate-fade-in-up animate-delay-2" onclick="createNewShop()">
+                                                <div class="create-icon">
+                                                    <i class="fas fa-plus"></i>
+                                                </div>
+                                                <h3 class="create-title">🚀 Créer une nouvelle boutique</h3>
+                                                <p class="create-subtitle">Lancez votre nouvelle boutique en ligne en quelques clics et commencez à vendre immédiatement</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning text-center">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        Vous n'avez pas la permission de voir cette section.
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Onglet Profil -->
+                    <div class="tab-pane fade" id="profil" role="tabpanel">
+                        <div class="p-4">
+                            <h4 class="mb-4">Informations du Profil</h4>
+                            
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="content-card p-4 text-center">
+                                            <i class="fas fa-user fs-2 text-primary"></i>
+                                        <h5 class="mb-1">{{ Auth::user()->name ?? 'Utilisateur' }}</h5>
+                                        <p class="text-muted mb-3">{{ Auth::user()->role ?? 'Membre' }}</p>
+                                        <button class="btn btn-outline-primary btn-sm">Changer la photo</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-8">
+                                    <div class="content-card p-4">
+                                        <form method="POST" action="">
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Nom</label>
+                                                    <input type="text" class="form-control" value="{{ Auth::user()->name ?? '' }}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Email</label>
+                                                    <input type="email" class="form-control" value="{{ Auth::user()->email ?? '' }}">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Téléphone</label>
+                                                    <input type="tel" class="form-control"value="{{ Auth::user()->telephone ?? '' }}">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Bio</label>
+                                                    <textarea class="form-control" rows="3" placeholder="Parlez-nous de vous..."></textarea>
+                                                </div>
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-outline-primary">Sauvegarder</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Onglet Mes Abonnements -->
+                    <div class="tab-pane fade" id="abonnements" role="tabpanel">
+                        <div class="p-4">
+                            <h4 class="mb-4">Mes Abonnements</h4>
+                            
+                            <div class="row g-4">
+                                <div class="col-lg-4">
+                                    <div class="content-card p-4 border border-primary border-2">
+                                        <div class="text-center mb-3">
+                                            <div class="bg-primary bg-opacity-10 rounded-circle p-3 mx-auto mb-3" style="width: fit-content;">
+                                                <i class="fas fa-crown text-primary fa-2x"></i>
+                                            </div>
+                                            <h5 class="text-primary">Plan Premium</h5>
+                                            <p class="text-muted mb-0">Abonnement actuel</p>
+                                        </div>
+                                        <div class="text-center mb-4">
+                                            <span class="h3 fw-bold">29€</span>
+                                            <span class="text-muted">/mois</span>
+                                        </div>
+                                        <ul class="list-unstyled mb-4">
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Boutiques illimitées</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Analytics avancées</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Support prioritaire</li>
+                                            <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Intégrations premium</li>
+                                        </ul>
+                                        <div class="text-center">
+                                            <button class="btn btn-outline-primary w-100">Gérer l'abonnement</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-8">
+                                    <div class="content-card p-4">
+                                        <h5 class="mb-3">Historique des paiements</h5>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Montant</th>
+                                                        <th>Statut</th>
+                                                        <th>Facture</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>15 Jan 2024</td>
+                                                        <td>29€</td>
+                                                        <td><span class="badge bg-success">Payé</span></td>
+                                                        <td><a href="#" class="text-primary">Télécharger</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>15 Déc 2023</td>
+                                                        <td>29€</td>
+                                                        <td><span class="badge bg-success">Payé</span></td>
+                                                        <td><a href="#" class="text-primary">Télécharger</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>15 Nov 2023</td>
+                                                        <td>29€</td>
+                                                        <td><span class="badge bg-success">Payé</span></td>
+                                                        <td><a href="#" class="text-primary">Télécharger</a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            @empty
-                <div class="empty-state">
-                    <i class="fas fa-store-slash"></i>
-                    <h4>Aucune boutique trouvée</h4>
-                    <p>Créez votre première boutique pour commencer à vendre.</p>
-                    <a href="{{ route('shop.create') }}" class="btn btn-primary mt-3">
-                        <i class="fas fa-plus"></i> Créer une boutique
-                    </a>
-                </div>
-            @endforelse
-             <div class="col-lg-4 col-md-6 col-12">
-                <div class="create-shop-card animate-fade-in-up animate-delay-2" onclick="createNewShop()">
-                    <div class="create-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <h3 class="create-title">🚀 Créer une nouvelle boutique</h3>
-                    <p class="create-subtitle">Lancez votre nouvelle boutique en ligne en quelques clics et commencez à vendre immédiatement</p>
-                </div>
             </div>
         </div>
 
-            <!-- Carte Création avec Animations -->
-           
-        </div>
     </div>
-    @else
-        <div class="alert alert-warning text-center">
-            <i class="fas fa-exclamation-triangle me-2"></i>
-            Vous n'avez pas la permission de voir cette section.
-        </div>
-    @endif
 </div>
-
 <script>
-    // Animation des cartes au chargement
     document.addEventListener('DOMContentLoaded', function() {
         const cards = document.querySelectorAll('.shop-card, .create-shop-card');
         cards.forEach((card, index) => {
@@ -587,21 +889,39 @@
         });
     });
 
-    // Fonction pour créer une nouvelle boutique
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function (e) {
+            const targetPane = document.querySelector(e.target.getAttribute('data-bs-target'));
+            targetPane.classList.add('fade-in');
+            
+            setTimeout(() => {
+                targetPane.classList.remove('fade-in');
+            }, 400);
+        });
+    });
     function createNewShop() {
-        // Animation de clic
         const createCard = document.querySelector('.create-shop-card');
         createCard.style.transform = 'scale(0.95)';
         
         setTimeout(() => {
             createCard.style.transform = 'translateY(-3px) scale(1.02)';
             
-            // Redirection vers la création de boutique
             window.location.href = "{{ route('shop.create') }}";
         }, 150);
     }
 
-    // Fonction de notification (optionnelle)
+    function handleTabsScroll() {
+        const tabsContainer = document.querySelector('.nav-tabs-custom');
+        if (tabsContainer && tabsContainer.scrollWidth > tabsContainer.clientWidth) {
+            tabsContainer.style.justifyContent = 'flex-start';
+        } else if (tabsContainer) {
+            tabsContainer.style.justifyContent = 'center';
+        }
+    }
+
+    window.addEventListener('resize', handleTabsScroll);
+    document.addEventListener('DOMContentLoaded', handleTabsScroll);
+
     function showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.style.cssText = `

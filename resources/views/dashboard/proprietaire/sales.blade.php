@@ -603,6 +603,10 @@
                                             <input type="text" class="form-control" id="clientName" required>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="clientEmail" class="form-label">email du client</label>
+                                            <input type="email" class="form-control" id="clientEmail" required>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="montantPercu" class="form-label">Montant perçu (FCFA)</label>
                                             <input type="number" class="form-control" id="montantPercu" required min="0" oninput="calculateChange()">
                                         </div>
@@ -1062,6 +1066,7 @@ function submitSaleForm(event) {
     }
 
     const clientName = document.getElementById('clientName').value.trim();
+    const clientEmail = document.getElementById('clientEmail').value.trim();
     const montantPercu = parseFloat(document.getElementById('montantPercu').value);
     const modePaiement = document.getElementById('modePaiement').value;
     const total = cart.reduce((sum, item) => sum + (item.prix * item.quantite), 0);
@@ -1077,6 +1082,7 @@ function submitSaleForm(event) {
     }
 
     const saleData = {
+        client_email: clientEmail,
         client_name: clientName,
         montant_recu: montantPercu,
         mode_paiement: modePaiement,

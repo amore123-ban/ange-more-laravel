@@ -119,7 +119,7 @@
       color: #2563eb;
     }
 
-    .contact,.pricing{
+    .contact,.pricing,.features{
       color:#2563eb;
       font-size:34px;
     }
@@ -199,7 +199,7 @@
         margin-left: 0;
       }
       
-      .contact, .pricing {
+      .contact, .pricing, .features {
         font-size: 2rem;
       }
       
@@ -485,7 +485,7 @@
         EzStore est la solution complète pour optimiser la gestion de votre boutique électronique : stocks, ventes, factures et bien plus encore.
        </p>
        <div class="mt-4">
-          <a href="" class="btn btn-outline-custom btn-follow-cursor me-3 mb-2">
+          <a href="{{route('plans')}}" class="btn btn-outline-custom btn-follow-cursor me-3 mb-2">
             <i class="fas fa-rocket me-2"></i>
             Démarrer gratuitement
           </a>
@@ -502,10 +502,11 @@
   </div>
   </section>
 
+  <section id="features"></section>
   <!-- Features -->
-    <section id="features" class="mt-4 py-5 bg-light">
+    <section class="mt-5 py-5 bg-light">
   <div class="container">
-    <h2 class="text-center text-primary fw-bold mb-4 fs-2">Fonctionnalités principales</h2>
+    <h2 class="text-center text-primary fw-bold mb-4 pricing ">Fonctionnalités principales</h2>
     <p class="text-center text-muted mx-auto mb-5" style="max-width: 700px;">
       Tout ce dont vous avez besoin pour gérer efficacement votre boutique électronique
     </p>
@@ -587,7 +588,9 @@
 
 
   <!-- Pricing -->
-  <section id="pricing" class="py-5">
+   
+  <section id="pricing"></section>
+  <section id="pricing" class="py-5 mt-5">
   <div class="container">
     <div class="row justify-content-center mb-5">
       <div class="col-md-8 text-center">
@@ -688,7 +691,9 @@
 
 
   <!-- Contact -->
-  <section id="contact" class="py-5">
+   
+  <section id="contact"></section>
+  <section id="contact" class="py-5 mt-5">
     <div class="container">
       <div class="row d-flex justify-content-center mb-5">
         <div class="col-md-8 text-center">

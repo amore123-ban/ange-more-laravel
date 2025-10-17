@@ -1,15 +1,18 @@
 <?php
 use App\Http\Middleware\CheckSubscription;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Models\ActivityLog;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\FactureController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RecordController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\StatsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
@@ -64,7 +67,7 @@ Route::post('/boutique-create', [ShopController::class, 'store'])->middleware('a
 //     Route::get('settings/password', Password::class)->name('settings.password');
 //     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
 // });
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 Route::middleware(['auth'])->group(function () {
 
@@ -113,10 +116,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/employe-create', [EmployeeController::class, 'store'])->name('employe-store');
 
-    Route::get('/historique', [RecordController::class, 'index'])->name('historique');
+    Route::get('/historique', [RecordController::class, 'index'])->name('historique');  
 
-    Route::get('/facture/{id}', [App\Http\Controllers\FactureController::class, 'downloadInvoice'])->name('facture.download');
+    Route::get('/facture/{sale}', [App\Http\Controllers\FactureController::class, 'show'])->name('facture.show');
 
+    Route::post('/sales/{id}/send-invoice', [SaleController::class, 'sendInvoice'])->name('sales.sendInvoice');
+
+    Route::get('/facture/download/{id}', [App\Http\Controllers\FactureController::class, 'downloadInvoice'])->name('facture.download');
+
+    Route::get('/statistiques', [StatsController::class, 'index'])->name('statistique');
+   
     Route::get('/parametres', [SettingController::class, 'index'])->name('setting');
 
     Route::get('/dashboard/data', [DashboardController::class, 'getChartData'])->name('dashboard.data');
@@ -140,4 +149,26 @@ Route::post('/checkout',[PaymentController::class,'checkout'])->name('checkout')
 
 Route::post('/notchpay/callback',[PaymentController::class,'callback'])->name('payment.callback');
 
+Route::get('/export-logs', function () {
+    $logs = ActivityLog::all();
+    $csvData = "user_id,action,url,method,ip_address,details,timestamp\n";
+
+    foreach ($logs as $log) {
+        $csvData .= "{$log->user_id},{$log->action},\"{$log->url}\",{$log->method},{$log->ip_address},\"{$log->details}\",{$log->created_at}\n";
+    }
+
+    $path = base_path('scripts/activity_logs.csv');
+
+    File::put($path, $csvData);
+
+    return response()->download($path);
+});
+use App\Http\Controllers\ActivityAnalysisController;
+
+Route::get('/activities', [ActivityAnalysisController::class, 'index']);
+Route::get('/activities/{activity}', [ActivityAnalysisController::class, 'show']);
+
+
 require __DIR__.'/auth.php';
+
+

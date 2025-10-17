@@ -28,4 +28,8 @@ class SaleDetail extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function saleItem()
+    {
+       return $this->belongsTo(SaleItem::class, 'sale_item_id');
+    }
 }

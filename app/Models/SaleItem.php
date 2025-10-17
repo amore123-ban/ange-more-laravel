@@ -10,13 +10,18 @@ class SaleItem extends Model
         'sale_id', 'product_id', 'quantite', 'prix',
     ];
 
-    public function sale()
+   public function sale()
     {
-        return $this->belongsTo(Sale::class);
+        return $this->belongsTo(Sale::class, 'sale_id');
     }
 
     public function product()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+    public function details()
+    {
+         return $this->hasMany(SaleDetail::class, 'sale_id', 'sale_id')
+                ->whereColumn('product_id', 'product_id'); 
     }
 }

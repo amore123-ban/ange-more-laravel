@@ -47,7 +47,7 @@ class DashboardController extends Controller
         $faible = $prods->filter(fn ($prod) => $prod->quantite <= $prod->quantite_min && $prod->quantite > 0)->count();
         $nbventes = Sale::where('shop_id', $shop_id)->count();
         $totalventes = Sale::where('shop_id', $shop_id)->sum('total');
-
+        // $date_end = Subscription::where('user_id',$user->id)->wher;
         $sales = Sale::where('shop_id', $shop_id)->orderBy('created_at', 'desc')->get();
 
             $period = $request->input('period', '7');

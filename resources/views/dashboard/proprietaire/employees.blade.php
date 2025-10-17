@@ -520,13 +520,13 @@
                                             <label for="employeeName" class="form-label">
                                                 <i class="fas fa-user me-2" style="color: var(--primary-color);"></i>Nom Complet
                                             </label>
-                                            <input type="text" class="form-control" name="name" id="employeeName" placeholder="Ex: Jean Dupont" required>
+                                            <input type="text" class="form-control" name="name" id="employeeName" placeholder="Ex: ange more" required>
                                         </div>
                                         <div class="mb-4">
                                             <label for="employeeEmail" class="form-label">
                                                 <i class="fas fa-envelope me-2" style="color: var(--primary-color);"></i>Adresse Email
                                             </label>
-                                            <input type="email" class="form-control" name="email" id="employeeEmail" placeholder="Ex: jean.dupont@entreprise.com" required>
+                                            <input type="email" class="form-control" name="email" id="employeeEmail" placeholder="Ex: amore@gmail.com" required>
                                         </div>
                                     </div>
                                 </div>

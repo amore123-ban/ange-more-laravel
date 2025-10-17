@@ -1,0 +1,4 @@
+user_id,action,url,method,ip_address,details,timestamp
+1,Ajout de produit,"",,192.168.1.5,"",2025-10-05 21:17:47
+3,Test IA,"",,127.0.0.1,"",2025-10-05 21:23:25
+3,Test IA,"",,127.0.0.1,"",2025-10-05 22:21:14

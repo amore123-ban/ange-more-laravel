@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Mail\SaleInvoiceMail;
 use App\Models\Shop;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use App\Models\SaleItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
 class SaleController extends Controller
@@ -60,6 +62,7 @@ public function store(Request $request)
         try {
             $sale = Sale::create([
                 'client_name'   => $request->client_name,
+                'client_email'   => $request->client_email,
                 'montant_recu'  => $request->montant_recu,
                 'mode_paiement' => $request->mode_paiement,
                 'total'         => $request->total,
@@ -130,7 +133,19 @@ public function store(Request $request)
         }
     }
 
+     public function sendInvoice($id)
+    {
+        $sale = Sale::findOrFail($id);
 
+        if (!$sale->client_email) {
+            return back()->with('error', 'Aucune adresse e-mail pour ce client.');
+        }
+
+        // Envoi du mail avec la facture PDF
+        Mail::to($sale->client_email)->send(new SaleInvoiceMail($sale));
+
+        return back()->with('success', 'Facture envoyée à ' . $sale->client_email);
+    }
 
     
 }

@@ -41,13 +41,13 @@ class PaymentController extends Controller
             if ($payment->transaction->status === 'complete') {
                 // Payment was successful
                 // TODO: Deliver product or service, save transaction, etc.
-                return redirect()->route('commande.success')->with('success', 'Paiement effectué avec succès!');
+                return redirect()->route('/')->with('success', 'Paiement effectué avec succès!');
             } else {
                 // Payment is not yet completed or failed
-                return redirect()->route('panier')->with('error', 'Le paiement a échoué ou est incomplet.');
+                return redirect()->route('/')->with('error', 'Le paiement a échoué ou est incomplet.');
             }
         } catch(\NotchPay\Exceptions\ApiException $e) {
-            return redirect()->route('panier')->with('error', $e->getMessage());
+            return redirect()->route('/')->with('error', $e->getMessage());
         }
     }
 

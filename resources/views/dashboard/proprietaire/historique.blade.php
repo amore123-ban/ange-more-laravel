@@ -1,5 +1,3 @@
-
-
 @extends('layouts.layout_proprio')
 
 @section('content')
@@ -24,118 +22,123 @@
         }
 
         .main-content {
-      margin-left: var(--sidebar-width);
-      padding: 20px;
-      background: linear-gradient(135deg, #ffffff 0%, rgb(165, 192, 230) 100%);
-      min-height: 100vh;
-    }
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, rgb(165, 192, 230) 100%);
+            min-height: 100vh;
+        }
 
-    .sale-header {
+        .sale-header {
             background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
-            border-top: 4px solid #2563eb;
+            border: 4px solid #2563eb;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-    .sale-header:hover {
-        transform: translateY(-2px);
-    }
+        .sale-header:hover {
+            transform: translateY(-2px);
+        }
 
-    .icon-container {
-        background: linear-gradient(135deg, #2563eb, #3b82f6);
-        width: 60px;
-        height: 60px;
-        transition: transform 0.3s ease;
-    }
+        .icon-container {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s ease;
+        }
 
-    .icon-container:hover {
-        transform: scale(1.05);
-    }
+        .icon-container:hover {
+            transform: scale(1.05);
+        }
 
-    .boutique-select {
-        background: linear-gradient(135deg, #fff5f5, #ffe5e5);
-        border: 2px solid #fed7d7;
-        color: #dc3545;
-        transition: all 0.3s ease;
-    }
+        .boutique-select {
+            background: linear-gradient(135deg, #fff5f5, #ffe5e5);
+            border: 2px solid #fed7d7;
+            color: #dc3545;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
 
-    .boutique-select:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
-    }
+        .boutique-select:focus {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
 
-    .boutique-select:hover {
-        border-color: #dc3545;
-        transform: translateY(-1px);
-    }
+        .boutique-select:hover {
+            border-color: #dc3545;
+            transform: translateY(-1px);
+        }
 
-    .title-gradient {
-        background: linear-gradient(135deg, #2d3748, #4a5568);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
+        .title-gradient {
+            background: linear-gradient(135deg, #2d3748, #4a5568);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-    .search-container {
-        position: relative;
-        width: 620px;
-    }
+        /* Responsive Search Container */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 620px;
+        }
 
-    .search-input {
-        border: 2px solid #e2e8f0;
-        border-radius: 50px;
-        padding-left: 45px;
-        height: 45px;
-        width:600px;
-        transition: all 0.3s ease;
-        background: white;
-    }
+        .search-input {
+            border: 2px solid #e2e8f0;
+            border-radius: 50px;
+            padding-left: 45px;
+            height: 45px;
+            width: 100%;
+            max-width: 600px;
+            transition: all 0.3s ease;
+            background: white;
+        }
 
-    .search-input:focus {
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        outline: none;
-    }
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            outline: none;
+        }
 
-    .search-icon {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--primary-blue);
-        z-index: 5;
-    }
-    .boutique-selector {
-    background: var(--brand-50);
-    border: 2px solid var(--brand-100);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-weight: 500;
-    color: var(--brand-700);
-    transition: var(--transition);
-    min-width: 180px;
-    font-size: 0.875rem;
-    }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            z-index: 5;
+        }
 
-    .boutique-selector:focus {
-        outline: none;
-        border-color: var(--brand);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        background: white;
-    }
+        .boutique-selector {
+            background: var(--brand-50);
+            border: 2px solid var(--brand-100);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-weight: 500;
+            color: var(--brand-700);
+            transition: var(--transition);
+            min-width: 180px;
+            font-size: 0.875rem;
+            width: 100%;
+        }
 
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-light));
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        margin-right: 8px;
-    }
+        .boutique-selector:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background: white;
+        }
 
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 8px;
+        }
 
         .stats-card {
             background: white;
@@ -255,10 +258,6 @@
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
         }
 
-        .search-container {
-            position: relative;
-        }
-
         .search-container .form-control {
             padding-left: 2.5rem;
             border-radius: 10px;
@@ -350,21 +349,206 @@
             font-size: 0.875rem;
         }
 
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 1200px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .search-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sale-header .d-flex {
+                flex-direction: column;
+                gap: 1rem !important;
+            }
+            
+            .sale-header > div > div {
+                min-width: auto !important;
+            }
+            
+            .search-container {
+                order: 3;
+                width: 100%;
+            }
+            
+            .boutique-selector {
+                min-width: auto;
+            }
+        }
+
         @media (max-width: 768px) {
+            .main-content {
+                padding: 10px;
+            }
+            
             .main-header {
                 padding: 1.5rem 0;
             }
             
             .stats-card {
                 margin-bottom: 1rem;
+                padding: 1rem;
+            }
+            
+            .stats-card h3 {
+                font-size: 1.5rem;
             }
             
             .table-responsive {
                 border-radius: 0;
+                margin: 0 -10px;
             }
             
             .filter-card {
                 padding: 1rem;
+                margin: 0 -10px 1.5rem -10px;
+                border-radius: 0;
+            }
+            
+            .search-container .form-control {
+                width: 100% !important;
+                max-width: none;
+            }
+            
+            /* Stack filter elements vertically on mobile */
+            .filter-card .row > div {
+                margin-bottom: 0.75rem;
+            }
+            
+            .filter-card .col-lg-4:last-child {
+                text-align: left !important;
+            }
+            
+            /* Improve table on mobile */
+            .table th,
+            .table td {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.875rem;
+            }
+            
+            /* Hide less important columns on mobile */
+            .table th:nth-child(4),
+            .table td:nth-child(4) {
+                display: none;
+            }
+            
+            .client-info {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .client-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+            }
+            
+            .action-btn {
+                width: 28px;
+                height: 28px;
+                margin: 0 0.05rem;
+            }
+            
+            /* Responsive dropdown */
+            .dropdown-menu {
+                min-width: 250px !important;
+                left: auto !important;
+                right: 0 !important;
+            }
+            
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+            }
+            
+            /* Responsive pagination */
+            .pagination {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .pagination .page-item {
+                margin: 0.125rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 5px;
+            }
+            
+            .sale-header {
+                margin: 0 -5px;
+                border-radius: 0 !important;
+                padding: 1rem !important;
+            }
+            
+            .icon-container {
+                width: 48px;
+                height: 48px;
+            }
+            
+            .title-gradient {
+                font-size: 1.1rem;
+            }
+            
+            .stats-card {
+                margin: 0 -5px 1rem -5px;
+                border-radius: 0;
+            }
+            
+            .sales-table-container {
+                margin: 0 -5px;
+                border-radius: 0;
+            }
+            
+            /* Card view for table on very small screens */
+            .table-responsive {
+                display: none;
+            }
+            
+            .mobile-card-view {
+                display: block;
+                padding: 1rem;
+            }
+            
+            .mobile-sale-card {
+                background: white;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .mobile-sale-card:last-child {
+                margin-bottom: 0;
+            }
+            
+            /* Hide text on very small screens for user dropdown */
+            .d-none.d-md-block {
+                display: none !important;
+            }
+        }
+
+        /* Mobile card view styles */
+        .mobile-card-view {
+            display: none;
+        }
+        
+        @media (max-width: 576px) {
+            .mobile-card-view {
+                display: block;
+            }
+            
+            .table-responsive {
+                display: none;
             }
         }
 
@@ -394,24 +578,25 @@
             100% { background-position: -200% 0; }
         }
     </style>
+
 <header class="main-content">
-         <div class="sale-header bg-white rounded-4 shadow-sm p-4 mb-4 border border-primary border-opacity-10">
+     <div class="sale-header bg-white rounded-4 shadow-sm p-4 mb-4 border border-primary border-opacity-10">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                 
                 <div class="d-flex align-items-center flex-grow-1" style="min-width: 300px;">
                     
                     <div class="icon-container rounded-3 bg-primary d-flex align-items-center justify-content-center me-3 shadow">
-                        <i class="fas fa-history text-white fs-4"></i>
+                        <i class="fas fa-shopping-cart text-white fs-4"></i>
                     </div>
                     
                     <div>
-                        <h4 class="title-gradient fw-bold mb-1 fs-5">Historique des Ventes</h4>
-                        <small class="text-muted fw-medium">Suivi et gestion de toutes les transactions</small>
+                        <h4 class="title-gradient fw-bold mb-1 fs-5">Gerer vos ventes</h4>
+                        <small class="text-muted fw-medium">Enregistrer des ventes et generer des factures</small>
                     </div>
                 </div>
                 <div class="search-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchProduct" class=" search-input" placeholder="Rechercher une vente...">
+                    <input type="text" id="searchProduct" class="form-control search-input" placeholder="Rechercher un produit...">
                 </div>
                 
                 <div style="min-width: 250px;">
@@ -488,7 +673,9 @@
                         <li><hr class="dropdown-divider my-2"></li>
                         
                         <li>
-                            <a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a class="dropdown-item py-2 text-danger" 
+                            href="{{ route('logout') }}" 
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i>
                                 Se déconnecter
                             </a>
@@ -497,214 +684,269 @@
                 </div>
             </div>
         </div>
-         <!-- Stats Cards -->
-        <div class="row mb-4">
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="stats-card animate-in">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="text-muted mb-2 fw-medium">Total des Ventes</h6>
-                            <h3 class="mb-0 fw-bold text-primary">{{$totalventes}} FCFA</h3>
-                            <small class="text-success">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                +12.5% ce mois
-                            </small>
-                        </div>
-                        <div class="stats-icon bg-primary bg-opacity-10" >
-                            <i class="fas fa-euro-sign text-primary"></i>
-                        </div>
+
+        <div id="noProductsMessage" class="alert alert-info d-none">
+            Aucun produit ne correspond à votre recherche.
+        </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+            <div class="stats-card animate-in">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <h6 class="text-muted mb-2 fw-medium">Total des Ventes</h6>
+                        <h3 class="mb-0 fw-bold text-primary">{{$totalventes}} FCFA</h3>
+                        <small class="text-success">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            +12.5% ce mois
+                        </small>
                     </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="stats-card animate-in" style="animation-delay: 0.1s;">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="text-muted mb-2 fw-medium">Nombre de Ventes</h6>
-                            <h3 class="mb-0 fw-bold text-primary">{{$nbventes}}</h3>
-                            <small class="text-success">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                +8.3% ce mois
-                            </small>
-                        </div>
-                        <div class="stats-icon bg-info bg-opacity-10">
-                            <i class="fas fa-shopping-bag text-info"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="stats-card animate-in" style="animation-delay: 0.2s;">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="text-muted mb-2 fw-medium">Vente Moyenne</h6>
-                            <h3 class="mb-0 fw-bold text-primary">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</h3>
-                            <small class="text-warning">
-                                <i class="fas fa-minus me-1"></i>
-                                -2.1% ce mois
-                            </small>
-                        </div>
-                        <div class="stats-icon bg-warning bg-opacity-10">
-                            <i class="fas fa-calculator text-warning"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="stats-card animate-in" style="animation-delay: 0.3s;">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h6 class="text-muted mb-2 fw-medium">Clients Uniques</h6>
-                            <h3 class="mb-0 fw-bold text-primary">789</h3>
-                            <small class="text-success">
-                                <i class="fas fa-arrow-up me-1"></i>
-                                +15.7% ce mois
-                            </small>
-                        </div>
-                        <div class="stats-icon bg-danger bg-opacity-10">
-                            <i class="fas fa-users text-danger"></i>
-                        </div>
+                    <div class="stats-icon bg-primary bg-opacity-10">
+                        <i class="fas fa-euro-sign text-primary"></i>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="filter-card animate-in" style="animation-delay: 0.4s;">
-            <div class="row align-items-center">
-                <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
-                    <div class="search-container">
-                        <i class="fas fa-search"></i>
-                        <input type="text" class="form-control" style="width:450px;" placeholder="Rechercher par client, référence...">
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+            <div class="stats-card animate-in" style="animation-delay: 0.1s;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <h6 class="text-muted mb-2 fw-medium">Nombre de Ventes</h6>
+                        <h3 class="mb-0 fw-bold text-primary">{{$nbventes}}</h3>
+                        <small class="text-success">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            +8.3% ce mois
+                        </small>
                     </div>
-                </div>
-                <div class="col-lg-2 col-md-3 mb-3 mb-lg-0">
-                    <select class="form-select">
-                        <option>Tous les statuts</option>
-                        <option>Complétée</option>
-                        <option>En attente</option>
-                        <option>Annulée</option>
-                    </select>
-                </div>
-                <div class="col-lg-2 col-md-3 mb-3 mb-lg-0">
-                    <select class="form-select">
-                        <option>Cette semaine</option>
-                        <option>Ce mois</option>
-                        <option>Ce trimestre</option>
-                        <option>Cette année</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 text-lg-end">
-                    <button class="btn btn-outline-primary me-2">
-                        <i class="fas fa-filter me-1"></i>
-                        Filtres
-                    </button>
-                    <button class="btn btn-primary-custom">
-                        <i class="fas fa-download me-1"></i>
-                        Exporter
-                    </button>
+                    <div class="stats-icon bg-info bg-opacity-10">
+                        <i class="fas fa-shopping-bag text-info"></i>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- Sales Table -->
-        <div class="sales-table-container animate-in" style="animation-delay: 0.5s;">
-            <div class="table-header p-4">
-                <h5 class="mb-0 fw-semibold">Historique des Ventes</h5>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+            <div class="stats-card animate-in" style="animation-delay: 0.2s;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <h6 class="text-muted mb-2 fw-medium">Vente Moyenne</h6>
+                        <h3 class="mb-0 fw-bold text-primary">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</h3>
+                        <small class="text-warning">
+                            <i class="fas fa-minus me-1"></i>
+                            -2.1% ce mois
+                        </small>
+                    </div>
+                    <div class="stats-icon bg-warning bg-opacity-10">
+                        <i class="fas fa-calculator text-warning"></i>
+                    </div>
+                </div>
             </div>
-            
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <thead>
-                        <tr>
-                            <th>Référence</th>
-                            <th>Client</th>
-                            <th>Montant</th>
-                            <th>Statut</th>
-                            <th>Date</th>
-                            <th class="text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="salesTableBody">
-                        @foreach($sales as $sale)
-                        <tr>
-                            <td>
-                                <div class="fw-semibold text-primary">{{$sale->id}}</div>
-                                <small class="text-muted">{{$sale->mode_paiement}}</small>
-                            </td>
-                            <td>
-                                <div class="client-info">
-                                    <div class="client-avatar">
-                                        {{ strtoupper(substr($sale->client_name, 0, 2)) }}
-                                    </div>
-                                    <div>
-                                        <div class="fw-medium">{{$sale->client_name}}</div>
-                                        <small class="text-muted">client</small>
-                                    </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
+            <div class="stats-card animate-in" style="animation-delay: 0.3s;">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <h6 class="text-muted mb-2 fw-medium">Clients Uniques</h6>
+                        <h3 class="mb-0 fw-bold text-primary">789</h3>
+                        <small class="text-success">
+                            <i class="fas fa-arrow-up me-1"></i>
+                            +15.7% ce mois
+                        </small>
+                    </div>
+                    <div class="stats-icon bg-danger bg-opacity-10">
+                        <i class="fas fa-users text-danger"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-card animate-in" style="animation-delay: 0.4s;">
+        <div class="row align-items-end">
+            <div class="col-lg-4 col-md-6 mb-3 mb-lg-0">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control" placeholder="Rechercher par client, référence...">
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-6 mb-3 mb-lg-0">
+                <select class="form-select">
+                    <option>Tous les statuts</option>
+                    <option>Complétée</option>
+                    <option>En attente</option>
+                    <option>Annulée</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-3 col-6 mb-3 mb-lg-0">
+                <select class="form-select">
+                    <option>Cette semaine</option>
+                    <option>Ce mois</option>
+                    <option>Ce trimestre</option>
+                    <option>Cette année</option>
+                </select>
+            </div>
+            <div class="col-lg-4 col-12 d-flex gap-2 flex-wrap">
+                <button class="btn btn-outline-primary flex-grow-1 flex-md-grow-0">
+                    <i class="fas fa-filter me-1"></i>
+                    Filtres
+                </button>
+                <button class="btn btn-primary-custom flex-grow-1 flex-md-grow-0">
+                    <i class="fas fa-download me-1"></i>
+                    Exporter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Table -->
+    <div class="sales-table-container animate-in" style="animation-delay: 0.5s;">
+        <div class="table-header p-4">
+            <h5 class="mb-0 fw-semibold">Historique des Ventes</h5>
+        </div>
+        
+        <!-- Desktop Table View -->
+        <div class="table-responsive">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th>Référence</th>
+                        <th>Client</th>
+                        <th>Montant</th>
+                        <th class="d-none d-md-table-cell">Statut</th>
+                        <th class="d-none d-lg-table-cell">Date</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="salesTableBody">
+                    @foreach($sales as $sale)
+                    <tr>
+                        <td>
+                            <div class="fw-semibold text-primary">{{$sale->id}}</div>
+                            <small class="text-muted">{{$sale->mode_paiement}}</small>
+                        </td>
+                        <td>
+                            <div class="client-info">
+                                <div class="client-avatar">
+                                    {{ strtoupper(substr($sale->client_name, 0, 2)) }}
                                 </div>
-                            </td>
-                            <td>
-                                <div class="sale-amount">{{$sale->total}} FCFA</div>
-                            </td>
-                            <td>
-                                {{$sale->status}}
-                            </td>
-                            <td>
-                                <div class="text-muted">{{$sale->created_at}}</div>
-                            </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center">
-                                    <a href="{{ route('facture.download', $sale->id) }}" class="action-btn btn-view" title="Télécharger facture">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                    <button class="action-btn btn-edit" title="Modifier">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="action-btn btn-delete" title="Supprimer">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                                <div>
+                                    <div class="fw-medium">{{$sale->client_name}}</div>
+                                    <small class="text-muted d-none d-md-block">client</small>
                                 </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="sale-amount">{{$sale->total}} FCFA</div>
+                        </td>
+                        <td class="d-none d-md-table-cell">
+                            <span class="badge bg-success">{{$sale->status}}</span>
+                        </td>
+                        <td class="d-none d-lg-table-cell">
+                            <div class="text-muted">{{$sale->created_at}}</div>
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center flex-wrap">
+                                <a href="{{ route('facture.show', $sale->id) }}" class="action-btn btn-view" title="voir facture">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ route('facture.download', $sale->id) }}" class="action-btn btn-view" title="Télécharger facture">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                <form action="{{ route('sales.sendInvoice', $sale->id) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-sm btn-primary">
+                                        <i class="fa fa-envelope"></i>
+                                    </button>
+                                </form>
+                                <button class="action-btn btn-delete" title="Supprimer">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="d-flex justify-content-between align-items-center mt-4">
-            <div class="text-muted">
-                Affichage de <strong>1-10</strong> sur <strong>247</strong> ventes
+        <!-- Mobile Card View -->
+        <div class="mobile-card-view">
+            @foreach($sales as $sale)
+            <div class="mobile-sale-card">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <div class="fw-semibold text-primary">#{{$sale->id}}</div>
+                        <small class="text-muted">{{$sale->mode_paiement}}</small>
+                    </div>
+                    <div class="sale-amount">{{$sale->total}} FCFA</div>
+                </div>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <div class="client-avatar me-3">
+                        {{ strtoupper(substr($sale->client_name, 0, 2)) }}
+                    </div>
+                    <div>
+                        <div class="fw-medium">{{$sale->client_name}}</div>
+                        <small class="text-muted">{{$sale->created_at}}</small>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-success">{{$sale->status}}</span>
+                    <div class="d-flex">
+                        <a href="{{ route('facture.show', $sale->id) }}" class="action-btn btn-view me-1">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{{ route('facture.download', $sale->id) }}" class="action-btn btn-view me-1">
+                            <i class="fas fa-download"></i>
+                        </a>
+                        <button class="action-btn btn-edit me-1">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn btn-delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <nav aria-label="Pagination">
-                <ul class="pagination mb-0">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">3</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            @endforeach
         </div>
-    </header>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <!-- Pagination -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
+        <div class="text-muted order-2 order-md-1">
+            Affichage de <strong>1-10</strong> sur <strong>247</strong> ventes
+        </div>
+        <nav aria-label="Pagination" class="order-1 order-md-2">
+            <ul class="pagination mb-0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 @endsection

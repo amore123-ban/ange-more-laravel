@@ -12,7 +12,7 @@ class SubscriptionController extends Controller
     public function index()
     {
         $plans = Plan::all();
-        return view('plans', compact('plans'));
+        return view('plan', compact('plans'));
     }
 
     public function store(Request $request, Plan $plan)

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ActivityLogger;
+
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Shop;
@@ -90,6 +92,7 @@ class ProductController extends Controller
             'shop_id' => $shop_id,
             'quantite_min' => $request->qte_min,
         ]);
+
 
         if ($request->expectsJson()) {
             return response()->json(['success' => true, 'message' => 'Produit ajouté avec succès']);

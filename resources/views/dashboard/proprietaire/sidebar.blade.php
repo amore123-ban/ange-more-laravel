@@ -24,11 +24,11 @@
         }
 
         .sidebar {
+            width:280px;
             position: fixed;
             top: 0;
             left: 0;
             height: 100vh;
-            width: var(--sidebar-width);
             background: #eaf3fc;
             color: black;
             transform: translateX(-100%);
@@ -283,6 +283,9 @@
                 <img src="./images/Ezstore.png" class=""/>
             </a>
         </div>
+        <div class="trial">
+             <span class="nav-badge"></span>
+        </div>
 
         
         <nav class="sidebar-nav">
@@ -326,7 +329,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}#statistiques" data-section="statistiques">
+                        <a class="nav-link  {{request()->routeIs('statistique') ? 'active' : '' }}" href="{{route('statistique')}}" href="{{ route('statistique') }}" data-section="statistiques">
                             <i class="fas fa-chart-bar"></i>
                             <span>Statistiques</span>
                         </a>
