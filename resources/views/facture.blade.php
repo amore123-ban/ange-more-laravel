@@ -368,12 +368,10 @@
             <div class="qr-section">
                 <div class="qr-title">Accès en ligne</div>
                 
-                @if(isset($qrCodeBase64) && $qrCodeBase64)
+                @if(!empty($qrCodeBase64))
                     <div class="qr-container">
-                        <img src="{{ $qrCodeBase64 }}" 
-                            alt="QR Code Facture #{{ $sale->id }}" 
-                            class="qr-image"
-                            style="width: 120px; height: 120px; border-radius: 4px;">
+                        <img src="{{ $qrCodeBase64 }}" alt="QR Code" width="120" height="120" class="qr-image">
+                        <p style="font-size:12px; color:#555;">{{ $invoiceUrl }}</p>
                     </div>
                 @else
                     <div class="qr-error">
