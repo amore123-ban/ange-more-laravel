@@ -1031,7 +1031,7 @@
 
         <div class="row">
             <div class="col-12">
-                <div class="bg-white rounded-3 shadow-sm p-4">
+                <div class="bg-white  rounded-3 shadow-sm p-4">
                     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                         <h5 class="text-dark fw-bold mb-0">
                             <i class="fas fa-list text-primary me-2"></i>
@@ -1047,7 +1047,7 @@
                     <!-- Statistics Cards -->
                     <div class="row g-3 mb-4">
                         <div class="col-md-3 col-6">
-                            <div class="card border-0 bg-primary bg-opacity-10 h-100">
+                            <div class="card border-2 border-primary rounded-3 bg-primary bg-opacity-10 h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-box text-primary fs-2 mb-2"></i>
                                     <h6 class="text-primary fw-bold mb-1">Total Produits</h6>
@@ -1065,7 +1065,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-6">
-                            <div class="card border-0 bg-warning bg-opacity-10 h-100">
+                            <div class="card border-2 border-warning bg-warning bg-opacity-10 h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-exclamation-triangle text-warning fs-2 mb-2"></i>
                                     <h6 class="text-warning fw-bold mb-1">Stock Faible</h6>
@@ -1074,7 +1074,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 col-6">
-                            <div class="card border-0 bg-danger bg-opacity-10 h-100">
+                            <div class="card border-2 border-danger bg-danger bg-opacity-10 h-100">
                                 <div class="card-body text-center">
                                     <i class="fas fa-times-circle text-danger fs-2 mb-2"></i>
                                     <h6 class="text-danger fw-bold mb-1">Rupture</h6>

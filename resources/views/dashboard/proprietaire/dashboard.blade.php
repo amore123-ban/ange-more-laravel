@@ -42,7 +42,6 @@ use Illuminate\Support\Str;
   }
 
   body {
-    font-family: 'poppins', sans-serif;
     letter-spacing: -0.01em;
   }
 

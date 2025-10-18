@@ -158,7 +158,6 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
         }
 
         .stats-card:hover {
@@ -692,7 +691,7 @@
     <!-- Stats Cards -->
     <div class="row mb-4">
         <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-            <div class="stats-card animate-in">
+            <div class="stats-card border-2 border-primary animate-in">
                 <div class="d-flex justify-content-between align-items-start">
                     <div class="flex-grow-1">
                         <h6 class="text-muted mb-2 fw-medium">Total des Ventes</h6>
@@ -710,11 +709,11 @@
         </div>
         
         <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-            <div class="stats-card animate-in" style="animation-delay: 0.1s;">
+            <div class="stats-card  border-2 border-info animate-in" style="animation-delay: 0.1s;">
                 <div class="d-flex justify-content-between align-items-start">
                     <div class="flex-grow-1">
                         <h6 class="text-muted mb-2 fw-medium">Nombre de Ventes</h6>
-                        <h3 class="mb-0 fw-bold text-primary">{{$nbventes}}</h3>
+                        <h3 class="mb-0 fw-bold text-info">{{$nbventes}}</h3>
                         <small class="text-success">
                             <i class="fas fa-arrow-up me-1"></i>
                             +8.3% ce mois
@@ -728,11 +727,11 @@
         </div>
         
         <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-            <div class="stats-card animate-in" style="animation-delay: 0.2s;">
+            <div class="stats-card border-2 border-warning animate-in" style="animation-delay: 0.2s;">
                 <div class="d-flex justify-content-between align-items-start">
                     <div class="flex-grow-1">
                         <h6 class="text-muted mb-2 fw-medium">Vente Moyenne</h6>
-                        <h3 class="mb-0 fw-bold text-primary">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</h3>
+                        <h3 class="mb-0 fw-bold text-warning">{{ $nbventes > 0 ? number_format($totalventes / $nbventes, 0, ',', ' ') : 0 }} FCFA</h3>
                         <small class="text-warning">
                             <i class="fas fa-minus me-1"></i>
                             -2.1% ce mois
@@ -746,11 +745,11 @@
         </div>
         
         <div class="col-lg-3 col-md-6 col-sm-6 mb-3">
-            <div class="stats-card animate-in" style="animation-delay: 0.3s;">
+            <div class="stats-card border-2 border-danger animate-in" style="animation-delay: 0.3s;">
                 <div class="d-flex justify-content-between align-items-start">
                     <div class="flex-grow-1">
                         <h6 class="text-muted mb-2 fw-medium">Clients Uniques</h6>
-                        <h3 class="mb-0 fw-bold text-primary">789</h3>
+                        <h3 class="mb-0 fw-bold text-danger">789</h3>
                         <small class="text-success">
                             <i class="fas fa-arrow-up me-1"></i>
                             +15.7% ce mois
@@ -842,7 +841,7 @@
                             <div class="sale-amount">{{$sale->total}} FCFA</div>
                         </td>
                         <td class="d-none d-md-table-cell">
-                            <span class="badge bg-success">{{$sale->status}}</span>
+                            <span class="badge bg-success bg-opacity-10 text-success">{{$sale->status}}</span>
                         </td>
                         <td class="d-none d-lg-table-cell">
                             <div class="text-muted">{{$sale->created_at}}</div>
@@ -857,8 +856,8 @@
                                 </a>
                                 <form action="{{ route('sales.sendInvoice', $sale->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-primary">
-                                        <i class="fa fa-envelope"></i>
+                                    <button type="submit" class="action-btn btn-view">
+                                        <i class="fas fa-paper-plane"></i>
                                     </button>
                                 </form>
                                 <button class="action-btn btn-delete" title="Supprimer">

@@ -283,10 +283,9 @@
                 <img src="./images/Ezstore.png" class=""/>
             </a>
         </div>
-        <div class="trial">
-             <span class="nav-badge"></span>
+        <div class="nav-badge  bg-primary bg-opacity-10  text-center m-4 p-2">
+             <span class="text-primary fs-5"> {{Auth::user()->role}}</span>
         </div>
-
         
         <nav class="sidebar-nav">
             <div class="nav-section">
@@ -301,14 +300,14 @@
                         <a class="nav-link {{request()->routeIs('produit') ? 'active' : '' }}" href="{{route('produit')}}">
                             <i class="fas fa-box"></i>
                             <span>Produits</span>
-                            <span class="nav-badge">{{$nbprods}}</span>
+                            <span class="nav-badge bg-danger bg-opacity-10 text-danger">{{$nbprods}}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{request()->routeIs('vente') ? 'active' : '' }}" href="{{route('vente')}}">
                             <i class="fas fa-shopping-cart"></i>
                             <span>Ventes</span>
-                            <span class="nav-badge">{{ $nbventes ?? 0 }}</span>
+                            <span class="nav-badge  bg-danger bg-opacity-10 text-danger">{{ $nbventes ?? 0 }}</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -348,8 +347,8 @@
             @csrf
             <div class="sidebar-footer">
                 <div class="sidebar-version">
-                    <button class="nav-link" type="submit">
-                        <i class="fas fa-sign-out-alt"></i>
+                    <button class="nav-link fs-4" type="submit">
+                        <i class="fas fa-sign-out-alt "></i>
                         <span>Se deconnecter</span>
                     </button>
                 </div>
